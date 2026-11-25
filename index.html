@@ -91,7 +91,7 @@ main{width:100%;max-width:1500px;margin:0 auto}
 </style>
 <style>
 .cards{grid-template-columns:repeat(7,minmax(0,1fr))}
-.kvalue.below-yoy{color:#c62828!important}
+.kvalue.below-yoy{color:#c62828!important}.yoy-delta{margin-top:7px;font-size:11px;font-weight:750;line-height:1.35;color:#147d48}.yoy-delta.negative{color:#c62828}.yoy-delta.neutral{color:#69717d}
 .yoy-summary-card{border-top:3px solid #f2c400}
 @media(max-width:1200px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:900px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -166,8 +166,8 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 <label>Estado<select id="uf"><option value="Todos">Todos os estados</option></select></label>
 </div>
 <section class="cards">
-<div class="card"><div class="klabel">Inscritos</div><div class="kvalue" id="kIns">—</div><div class="ksub">Registros de inscrição</div></div>
-<div class="card"><div class="klabel">Matrículas</div><div class="kvalue" id="kMat">—</div><div class="ksub">MATRICULOU = S</div></div>
+<div class="card"><div class="klabel">Inscritos</div><div class="kvalue" id="kIns">—</div><div class="ksub">Registros de inscrição</div><div class="yoy-delta" id="kInsYOYDiff" style="display:none"></div></div>
+<div class="card"><div class="klabel">Matrículas</div><div class="kvalue" id="kMat">—</div><div class="ksub">MATRICULOU = S</div><div class="yoy-delta" id="kMatYOYDiff" style="display:none"></div></div>
 <div class="card"><div class="klabel">Pagamentos</div><div class="kvalue" id="kPag">—</div><div class="ksub">1ª mensalidade cobrada paga = S</div></div>
 <div class="card"><div class="klabel">Conversão Inscritos → Matrículas</div><div class="kvalue" id="kConv1">—</div><div class="ksub">Matrículas ÷ inscritos</div></div>
 <div class="card"><div class="klabel">Conversão Matrículas → Pagamentos</div><div class="kvalue" id="kConv2">—</div><div class="ksub">Pagamentos ÷ matrículas</div></div>
@@ -302,6 +302,18 @@ function render(){
  const yoyIns=yoyRows.reduce((sum,r)=>sum+Number(r.InscritosYOY||0),0);
  const yoyMat=yoyRows.reduce((sum,r)=>sum+Number(r.MatriculasYOY||0),0);
  el('kInsYOY').textContent=fmt(yoyIns);el('kMatYOY').textContent=fmt(yoyMat);
+ // Comparativo YOY abaixo de Inscritos e Matrículas: exibido apenas quando o recorte é comparável.
+ const yoyComparable=el('polo').value==='Todos'&&el('uf').value==='Todos';
+ function setYOYDelta(id,current,previous){
+   const node=el(id);if(!node)return;
+   if(!yoyComparable||!previous){node.style.display='none';node.textContent='';return;}
+   const delta=current-previous,rate=delta/previous*100;
+   const sign=delta>=0?'+':'−',arrow=delta>=0?'▲':'▼';
+   node.textContent=`${arrow} ${sign}${fmt(Math.abs(delta))} (${sign}${Math.abs(rate).toFixed(1).replace('.',',')}%) vs. YOY`;
+   node.className='yoy-delta '+(delta<0?'negative':'');
+   node.style.display='block';
+ }
+ setYOYDelta('kInsYOYDiff',ins,yoyIns);setYOYDelta('kMatYOYDiff',mat,yoyMat);
  // Comparação direta só é válida no nível da operação; ao filtrar polo/estado, removemos o alerta de cor.
  const comparable=el('polo').value==='Todos'&&el('uf').value==='Todos';
  el('kIns').classList.toggle('below-yoy',comparable&&ins<yoyIns);
