@@ -171,13 +171,13 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 <div class="card"><div class="klabel">Pagamentos</div><div class="kvalue" id="kPag">—</div><div class="ksub">1ª mensalidade cobrada paga = S</div></div>
 <div class="card"><div class="klabel">Conversão Inscritos → Matrículas</div><div class="kvalue" id="kConv1">—</div><div class="ksub">Matrículas ÷ inscritos</div></div>
 <div class="card"><div class="klabel">Conversão Matrículas → Pagamentos</div><div class="kvalue" id="kConv2">—</div><div class="ksub">Pagamentos ÷ matrículas</div></div>
-<div class="card yoy-summary-card"><div class="klabel">Inscritos YOY acumulado</div><div class="kvalue" id="kInsYOY">—</div><div class="ksub">Acumulado até a última data disponível</div></div>
-<div class="card yoy-summary-card"><div class="klabel">Matrículas YOY acumulado</div><div class="kvalue" id="kMatYOY">—</div><div class="ksub">Acumulado até a última data disponível</div></div>
+<div class="card yoy-summary-card"><div class="klabel">Inscritos YOY acumulado</div><div class="kvalue" id="kInsYOY">—</div><div class="ksub">Acumulado até 26/11/2026</div></div>
+<div class="card yoy-summary-card"><div class="klabel">Matrículas YOY acumulado</div><div class="kvalue" id="kMatYOY">—</div><div class="ksub">Acumulado até 26/11/2026</div></div>
 </section>
 <div class="grid2 charts-overview">
-<div class="panel"><h2>Evolução diária</h2><div class="chartbox"><canvas id="trend"></canvas></div></div>
-<div class="panel"><h2>Conversão por operação / polo</h2><div class="chartbox"><canvas id="conversion"></canvas></div></div>
-<div class="panel"><h2>Evolução por Estado</h2><div class="chartbox"><canvas id="stateEvolution"></canvas></div></div>
+<div class="panel"><h2>Evolução diária</h2><div class="chartbox"><canvas id="trend"></canvas></div><p style="font-size:11px;color:var(--muted);margin:8px 0 0;line-height:1.4"><strong>Observação:</strong> 23/11 concentra 5.605 inscrições (3.827 na Op. I e 1.778 na Op. II); 1.182 são do polo Goiânia/GO – Centro. Os códigos de inscrição não se repetem na base. O pico foi mantido conforme a data registrada na extração.</p></div>
+<div class="panel"><h2>Conversão por Polo (Top 12 por Inscritos → Matrículas)</h2><div class="chartbox"><canvas id="conversion"></canvas></div></div>
+<div class="panel"><h2>Distribuição por Estado</h2><div class="chartbox"><canvas id="stateEvolution"></canvas></div></div>
 </div>
 <div class="grid3">
 <div class="panel"><h2>Ranking de inscritos</h2><div class="rankwrap"><div class="rankcol"><h3>Top 5</h3><div id="insTop"></div></div><div class="rankcol"><h3>5 menores</h3><div id="insBottom"></div></div></div></div>
@@ -189,10 +189,10 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 </div>
 <div class="panel"><h2>Leitura dos dados e critérios</h2>
 <p class="note"><span class="pill">Base: arquivos enviados</span> Foram identificados 54 polos na Operação Própria I e 50 na Operação Própria II. Cada linha do arquivo foi considerada uma inscrição; matrículas foram contadas quando <b>MATRICULOU = S</b>; pagamentos quando <b>PRIMEIRA_MENSALIDADE_COBRADA_PAGA = S</b>. A evolução diária usa DATA_DA_INSCRICAO para inscritos, DATA_MATRICULA para matrículas e DATA_PAGAMENTO_PAINEL para pagamentos. A evolução diária considera todo o período disponível na extração; os cartões, rankings e tabela refletem o conjunto total dos arquivos.</p>
-<p class="note"><b>Atenção:</b> a extração atual registra somente 13 pagamentos com o indicador de primeira mensalidade cobrada paga (12 na Op. I e 1 na Op. II). Isso pode representar apenas o pagamento inicial identificado nesse campo, e não necessariamente todos os pagamentos financeiros do aluno. Recomenda-se validar esse critério com a área responsável antes de usar o indicador como total oficial de pagamentos.</p>
+<p class="note"><b>Atenção:</b> a extração atual registra 26 pagamentos com o indicador de primeira mensalidade cobrada paga (19 na Op. I e 7 na Op. II). Isso pode representar apenas o pagamento inicial identificado nesse campo, e não necessariamente todos os pagamentos financeiros do aluno. Recomenda-se validar esse critério com a área responsável antes de usar o indicador como total oficial de pagamentos.</p>
 </div>
 <section class="daily-panel" id="dailyTracking" style="margin-top:28px">
-<div class="daily-head"><div><h2>Acompanhamento Diário por Polo</h2><div class="note">Consulte o realizado de matrículas por polo e por data, com base nas extrações de 26/11/2026.</div></div></div>
+<div class="daily-head"><div><h2>Acompanhamento Diário por Polo</h2><div class="note">Consulte o realizado de inscrições, matrículas e pagamentos por polo e por data, com base nas extrações de 26/11/2026.</div></div></div>
 <div class="daily-controls"><label>Selecionar data<select id="dailyDate"></select></label><label>Operação<select id="dailyOp"><option value="Todas">Todas as operações</option><option>Operação Própria I</option><option>Operação Própria II</option></select></label><label>Pesquisar polo<input id="dailySearch" placeholder="Digite o nome do polo" type="search"/></label></div>
 <div class="daily-kpis" id="dailyKpis"></div>
 <div class="daily-table"><table id="dailyTable"><thead><tr><th>Operação</th><th><button class="sort-daily" data-key="Polo" type="button">Polo ↕</button></th><th><button class="sort-daily" data-key="Inscritos" type="button">Inscritos no dia ↕</button></th><th><button class="sort-daily" data-key="Matrículas" type="button">Matrículas no dia ↕</button></th><th><button class="sort-daily" data-key="Pagamentos" type="button">Pagamentos no dia ↕</button></th></tr></thead><tbody></tbody></table></div>
@@ -248,8 +248,8 @@ document.addEventListener('DOMContentLoaded',function(){
 <section class="panel" id="yoyPanel" style="margin-top:18px">
 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap">
 <div><h2 style="font-size:18px;margin:0 0 5px">Acompanhamento YOY — realizado x ano anterior</h2>
-<p style="margin:0;color:var(--muted)">Compare inscritos e matrículas por operação, considerando a data atual e a data equivalente informada na planilha YOY.</p></div>
-<div style="font-size:11px;color:var(--muted);font-weight:650">BASE YOY: PLANILHA ANEXA</div>
+<p style="margin:0;color:var(--muted)">Compare inscritos e matrículas por operação, considerando a data atual e o dia equivalente na base histórica YOY. O acumulado está atualizado até 26/11/2026.</p></div>
+<div style="font-size:11px;color:var(--muted);font-weight:650">BASE YOY: HISTÓRICO COMPARATIVO CARREGADO</div>
 </div>
 <div class="filters" style="margin:14px 0">
 <label>Data atual<select id="yoyDate"></select></label>
@@ -335,7 +335,7 @@ function render(){
  const series=['Inscritos','Matrículas','Pagamentos'].map((k,i)=>({label:k,data:dates.map(dt=>totals.get(dt+'|'+k)||0),borderColor:chartPalette[i],backgroundColor:chartPalette[i]+'33',pointBackgroundColor:chartPalette[i],pointBorderColor:chartPalette[i],tension:.25,spanGaps:false}));
  if(typeof Chart !== 'undefined'){
  if(trendChart)trendChart.destroy();
- trendChart=new Chart(el('trend'),{type:'line',data:{labels:dates,datasets:series},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom'}},scales:{x:{ticks:{autoSkip:true,maxTicksLimit:14,maxRotation:0}},y:{beginAtZero:true, ticks:{precision:0}}}}});
+ trendChart=new Chart(el('trend'),{type:'line',data:{labels:dates.map(dt=>dt.split('-').reverse().join('/')),datasets:series},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom'}},scales:{x:{ticks:{autoSkip:true,maxTicksLimit:14,maxRotation:0}},y:{beginAtZero:true, ticks:{precision:0}}}}});
  const convRows=rows.slice().sort((a,b)=>b.Conv_Ins_Mat-a.Conv_Ins_Mat).slice(0,12);
  if(convChart)convChart.destroy();
  convChart=new Chart(el('conversion'),{type:'bar',data:{labels:convRows.map(r=>r.Polo),datasets:[{label:'Inscritos → Matrículas (%)',data:convRows.map(r=>r.Conv_Ins_Mat),backgroundColor:'#57585B',borderColor:'#57585B'},{label:'Matrículas → Pagamentos (%)',data:convRows.map(r=>r.Conv_Mat_Pag),backgroundColor:'#FBAF17',borderColor:'#FBAF17'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{beginAtZero:true,max:100}}}});
@@ -521,7 +521,7 @@ document.addEventListener('DOMContentLoaded', function(){
    </tr>`;
   }).join('');
   document.querySelector('#yoyTable tbody').innerHTML=(dailyRows||'')+accRows;
-  document.getElementById('yoyNote').textContent=`Comparação diária por operação. Data atual: ${date?date.split('-').reverse().join('/'):'—'}. A planilha enviada contém inscritos e matrículas YOY; não há coluna de pagamentos YOY, portanto esse indicador não foi calculado. A base atual do dashboard contém realizado diário até 26/11/2026.`;
+  document.getElementById('yoyNote').textContent=`Comparação diária por operação. Data atual: ${date?date.split('-').reverse().join('/'):'—'}. A base histórica comparativa contém inscritos e matrículas; não há série YOY comparável de pagamentos. Os acumulados consideram o período até 26/11/2026. Na base histórica carregada, os registros aparecem a partir de 14/11/2026; datas anteriores estão zeradas na própria base.`;
  }
  [dateEl,opEl].forEach(e=>e.addEventListener('change',render));render();
 });
