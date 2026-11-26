@@ -123,10 +123,10 @@ main{width:100%;max-width:1500px;margin:0 auto}
 .period-kpi small{display:block;color:var(--muted);font-size:11px;line-height:1.4}
 .period-kpi small.period-up{color:#16803c;font-weight:750}
 .period-kpi small.period-down{color:#c62828;font-weight:750}
-.period-chart-wrap,.period-table-wrap{margin-top:18px}
-.period-chart-wrap h3,.period-table-wrap h3{font-size:14px;margin:0 0 10px}
+.period-table-wrap{margin-top:18px}
+.period-table-wrap h3{font-size:14px;margin:0 0 10px}
 .period-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px}
-#periodWeeklyTable{min-width:930px}
+#periodWeeklyTable{min-width:560px}
 #periodWeeklyTable th{position:static;text-align:center}
 #periodWeeklyTable td{text-align:center;font-variant-numeric:tabular-nums}
 #periodWeeklyTable td:first-child{text-align:left;font-weight:700}
@@ -335,8 +335,8 @@ document.addEventListener('DOMContentLoaded',function(){
 
 <section class="panel period-panel" id="periodAnalysis" style="margin-top:18px">
  <div class="period-heading">
-  <div><h2>Análise por Período — evolução e crescimento semanal</h2>
-   <p class="period-intro">Selecione um intervalo e combine os filtros para acompanhar inscritos, matrículas e pagamentos. A comparação do período considera o intervalo anterior de mesma duração; a tabela mostra a evolução semana a semana.</p>
+  <div><h2>Análise por Período — acompanhamento semanal</h2>
+   <p class="period-intro">Selecione um intervalo e combine os filtros para acompanhar inscritos, matrículas e pagamentos. A comparação do período considera o intervalo anterior de mesma duração; o detalhamento apresenta os resultados por semana.</p>
   </div>
   <button type="button" class="export-btn" id="exportPeriodExcel">⬇ Exportar período para Excel</button>
  </div>
@@ -354,12 +354,11 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="period-kpi"><span>MATRÍCULAS NO PERÍODO</span><strong id="periodMatTotal">—</strong><small id="periodMatCompare">—</small></div>
   <div class="period-kpi"><span>PAGAMENTOS NO PERÍODO</span><strong id="periodPayTotal">—</strong><small id="periodPayCompare">—</small></div>
  </div>
- <div class="period-chart-wrap"><h3>Comparativo semana a semana</h3><div class="chartbox"><canvas id="periodWeeklyChart"></canvas></div></div>
  <div class="period-table-wrap">
   <h3>Detalhamento semanal</h3>
   <table id="periodWeeklyTable">
-   <thead><tr><th>Semana (período)</th><th>Inscritos</th><th>Variação vs. semana anterior</th><th>Matrículas</th><th>Variação vs. semana anterior</th><th>Pagamentos</th><th>Variação vs. semana anterior</th></tr></thead>
-   <tbody><tr><td colspan="7">Selecione os filtros e aplique a análise.</td></tr></tbody>
+   <thead><tr><th>Semana (período)</th><th>Inscritos</th><th>Matrículas</th><th>Pagamentos</th></tr></thead>
+   <tbody><tr><td colspan="4">Selecione os filtros e aplique a análise.</td></tr></tbody>
   </table>
  </div>
  <p class="period-footnote">As semanas seguem o calendário de segunda a domingo; a primeira e a última podem aparecer parciais conforme as datas selecionadas. O período anterior só é comparado quando está coberto pela base disponível (01/11/2026 a 26/11/2026).</p>
@@ -732,7 +731,7 @@ document.addEventListener('DOMContentLoaded', function(){
   el.className=changeClass(current,previous);
   el.textContent=label+': '+changeLabel(current,previous)+' vs. período anterior ('+fmt(previous)+')';
  }
- let chart=null,lastExport=null;
+ let lastExport=null;
  function compute(){
   const start=startEl.value,end=endEl.value;
   if(!start||!end){$('periodMessage').textContent='Informe as duas datas.';$('periodMessage').className='period-message error';return null;}
@@ -755,20 +754,8 @@ document.addEventListener('DOMContentLoaded', function(){
   showComparison($('periodPayCompare'),current.Pagamentos,previous?previous.Pagamentos:null,'Variação');
   $('periodMessage').className='period-message';
   $('periodMessage').textContent=br(start)+' a '+br(end)+' • '+selectedPoloSet().length+' polo(s) no recorte • '+periodDays+' dia(s) • '+(hasPrevious?'Comparação anterior: '+br(prevStart)+' a '+br(prevEnd):'Sem período anterior equivalente na base disponível');
-  const body=weeks.map((w,i)=>{
-   const p=weeks[i-1];
-   const cell=(metric)=>p?'<td class="'+changeClass(w[metric],p[metric])+'">'+changeLabel(w[metric],p[metric])+'</td>':'<td>—</td>';
-   return '<tr><td>'+w.Período+'</td><td>'+fmt(w.Inscritos)+'</td>'+cell('Inscritos')+'<td>'+fmt(w.Matrículas)+'</td>'+cell('Matrículas')+'<td>'+fmt(w.Pagamentos)+'</td>'+cell('Pagamentos')+'</tr>';
-  }).join('');
-  $('periodWeeklyTable').querySelector('tbody').innerHTML=body||'<tr><td colspan="7">Não há movimentação para os filtros selecionados.</td></tr>';
-  if(typeof Chart!=='undefined'){
-   if(chart)chart.destroy();
-   chart=new Chart($('periodWeeklyChart'),{type:'bar',data:{labels:weeks.map(w=>w.Período),datasets:[
-    {label:'Inscritos',data:weeks.map(w=>w.Inscritos),backgroundColor:'#57585B',borderColor:'#57585B',yAxisID:'y'},
-    {label:'Matrículas',data:weeks.map(w=>w.Matrículas),backgroundColor:'#FBAF17',borderColor:'#FBAF17',yAxisID:'y'},
-    {label:'Pagamentos',data:weeks.map(w=>w.Pagamentos),backgroundColor:'#00ADA8',borderColor:'#00ADA8',yAxisID:'y1'}
-   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,position:'left',ticks:{precision:0}},y1:{beginAtZero:true,position:'right',grid:{drawOnChartArea:false},ticks:{precision:0}}}}});
-  }
+  const body=weeks.map(w=>'<tr><td>'+w.Período+'</td><td>'+fmt(w.Inscritos)+'</td><td>'+fmt(w.Matrículas)+'</td><td>'+fmt(w.Pagamentos)+'</td></tr>').join('');
+  $('periodWeeklyTable').querySelector('tbody').innerHTML=body||'<tr><td colspan="4">Não há movimentação para os filtros selecionados.</td></tr>';
   const summary=[
    {Indicador:'Data inicial',Valor:start},{Indicador:'Data final',Valor:end},
    {Indicador:'Operação',Valor:opEl.value},{Indicador:'Polo',Valor:poloEl.value},{Indicador:'Estado',Valor:ufEl.value},
@@ -776,10 +763,7 @@ document.addEventListener('DOMContentLoaded', function(){
    {Indicador:'Dias no período',Valor:periodDays},{Indicador:'Período anterior disponível',Valor:hasPrevious?br(prevStart)+' a '+br(prevEnd):'Não disponível'},
    {Indicador:'Inscritos período anterior',Valor:previous?.Inscritos??''},{Indicador:'Matrículas período anterior',Valor:previous?.Matrículas??''},{Indicador:'Pagamentos período anterior',Valor:previous?.Pagamentos??''}
   ];
-  const weeklyExport=weeks.map((w,i)=>{
-   const p=weeks[i-1];
-   return {Semana:w.Período,Inscritos:w.Inscritos,'Variação inscritos':p?changeLabel(w.Inscritos,p.Inscritos):'',Matrículas:w.Matrículas,'Variação matrículas':p?changeLabel(w.Matrículas,p.Matrículas):'',Pagamentos:w.Pagamentos,'Variação pagamentos':p?changeLabel(w.Pagamentos,p.Pagamentos):''};
-  });
+  const weeklyExport=weeks.map(w=>({Semana:w.Período,Inscritos:w.Inscritos,Matrículas:w.Matrículas,Pagamentos:w.Pagamentos}));
   lastExport={summary,weeks:weeklyExport,daily,previousAvailable:hasPrevious};
   return lastExport;
  }
