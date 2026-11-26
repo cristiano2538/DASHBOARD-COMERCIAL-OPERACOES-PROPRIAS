@@ -242,6 +242,8 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 <style>
 #yoyTable td.negativo{color:#c62828!important;font-weight:700}
+#yoyTable td.positivo{color:#16803c!important;font-weight:700}
+#yoyTable tr.yoy-acumulado td.positivo{color:#16803c!important}
 #yoyTable tr.yoy-acumulado td{font-weight:750;background:#f3f4f6;border-top:2px solid #9ca3af}
 #yoyTable tr.yoy-acumulado td.negativo{color:#c62828!important}
 </style>
@@ -494,11 +496,11 @@ document.addEventListener('DOMContentLoaded', function(){
   });
   const sum=k=>rows.reduce((s,r)=>s+Number(r[k]||0),0);
   const ai=sum('InscritosAtual'), yi=sum('InscritosYOY'), am=sum('MatriculasAtual'), ym=sum('MatriculasYOY');
-  const negativeClass=v=>Number(v)<0?'negativo':'';
+  const resultClass=v=>Number(v)>0?'positivo':Number(v)<0?'negativo':'';
   const dailyRows=rows.map(r=>`<tr>
    <td>${r.Operação.replace('Operação Própria ','Op. ')}</td><td>${r.DataAtual.split('-').reverse().join('/')}</td><td>${r.DataYOY.split('-').reverse().join('/')}</td>
-   <td>${fmt(r.InscritosAtual)}</td><td>${fmt(r.InscritosYOY)}</td><td class="${negativeClass(r.InscritosAtual-r.InscritosYOY)}">${delta(r.InscritosAtual,r.InscritosYOY)}</td><td class="${negativeClass(r.InscritosAtual-r.InscritosYOY)}"><strong>${pct(r.InscritosAtual,r.InscritosYOY)}</strong></td>
-   <td>${fmt(r.MatriculasAtual)}</td><td>${fmt(r.MatriculasYOY)}</td><td class="${negativeClass(r.MatriculasAtual-r.MatriculasYOY)}">${delta(r.MatriculasAtual,r.MatriculasYOY)}</td><td class="${negativeClass(r.MatriculasAtual-r.MatriculasYOY)}"><strong>${pct(r.MatriculasAtual,r.MatriculasYOY)}</strong></td>
+   <td>${fmt(r.InscritosAtual)}</td><td>${fmt(r.InscritosYOY)}</td><td class="${resultClass(r.InscritosAtual-r.InscritosYOY)}">${delta(r.InscritosAtual,r.InscritosYOY)}</td><td class="${resultClass(r.InscritosAtual-r.InscritosYOY)}"><strong>${pct(r.InscritosAtual,r.InscritosYOY)}</strong></td>
+   <td>${fmt(r.MatriculasAtual)}</td><td>${fmt(r.MatriculasYOY)}</td><td class="${resultClass(r.MatriculasAtual-r.MatriculasYOY)}">${delta(r.MatriculasAtual,r.MatriculasYOY)}</td><td class="${resultClass(r.MatriculasAtual-r.MatriculasYOY)}"><strong>${pct(r.MatriculasAtual,r.MatriculasYOY)}</strong></td>
   </tr>`).join('');
   // Acumulado separado por operação: nunca consolidar Op. I e Op. II em uma única linha.
   const operations = op==='Todas' ? [...new Set(yoyData.map(r=>r.Operação))].sort() : [op];
@@ -516,8 +518,8 @@ document.addEventListener('DOMContentLoaded', function(){
    const accInsDelta=accActual.Inscritos-accYOY.Inscritos, accMatDelta=accActual.Matriculas-accYOY.Matriculas;
    return `<tr class="yoy-acumulado">
     <td>ACUMULADO — ${operation.replace('Operação Própria ','Op. ')}</td><td>${firstDate==='—'?'—':firstDate.split('-').reverse().join('/')} a ${date?date.split('-').reverse().join('/'): '—'}</td><td>Até ${lastYoyDate==='—'?'—':lastYoyDate.split('-').reverse().join('/')}</td>
-    <td>${fmt(accActual.Inscritos)}</td><td>${fmt(accYOY.Inscritos)}</td><td class="${negativeClass(accInsDelta)}">${delta(accActual.Inscritos,accYOY.Inscritos)}</td><td class="${negativeClass(accInsDelta)}"><strong>${pct(accActual.Inscritos,accYOY.Inscritos)}</strong></td>
-    <td>${fmt(accActual.Matriculas)}</td><td>${fmt(accYOY.Matriculas)}</td><td class="${negativeClass(accMatDelta)}">${delta(accActual.Matriculas,accYOY.Matriculas)}</td><td class="${negativeClass(accMatDelta)}"><strong>${pct(accActual.Matriculas,accYOY.Matriculas)}</strong></td>
+    <td>${fmt(accActual.Inscritos)}</td><td>${fmt(accYOY.Inscritos)}</td><td class="${resultClass(accInsDelta)}">${delta(accActual.Inscritos,accYOY.Inscritos)}</td><td class="${resultClass(accInsDelta)}"><strong>${pct(accActual.Inscritos,accYOY.Inscritos)}</strong></td>
+    <td>${fmt(accActual.Matriculas)}</td><td>${fmt(accYOY.Matriculas)}</td><td class="${resultClass(accMatDelta)}">${delta(accActual.Matriculas,accYOY.Matriculas)}</td><td class="${resultClass(accMatDelta)}"><strong>${pct(accActual.Matriculas,accYOY.Matriculas)}</strong></td>
    </tr>`;
   }).join('');
   document.querySelector('#yoyTable tbody').innerHTML=(dailyRows||'')+accRows;
