@@ -676,7 +676,7 @@ document.addEventListener('DOMContentLoaded', function(){
  const stateList=()=>[...new Set(DATA.polo.filter(p=>opEl.value==='Todas'||p.Operação===opEl.value).map(p=>stateOf(p.Polo)).filter(x=>x!=='Não identificado'))].sort();
  function setOptions(el,values,first){
   const old=el.value;el.innerHTML='';
-  const o=document.createElement('option');o.value=first==='Todos'?'Todos':'Todas';o.textContent=first;el.appendChild(o);
+  const o=document.createElement('option');o.value='Todos';o.textContent=first;el.appendChild(o);
   values.forEach(v=>{const option=document.createElement('option');option.value=v;option.textContent=v;el.appendChild(option)});
   el.value=values.includes(old)?old:o.value;
  }
