@@ -91,7 +91,21 @@ main{width:100%;max-width:1500px;margin:0 auto}
 .section-heading-row h2{margin:0}
 .daily-head>.export-btn{margin-left:auto}
 .yoy-export-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-@media(max-width:650px){.export-toolbar{width:100%;justify-content:space-between;min-width:0;margin-left:0}.export-toolbar span{max-width:45%}.export-btn{padding:8px 10px;font-size:11px}.yoy-export-actions{width:100%;justify-content:space-between}}
+.excel-export-panel{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2.2fr);align-items:center;gap:10px 18px;margin:0 0 16px;padding:16px 18px;background:#fffdf1;border:1px solid #e7d681;border-left:5px solid #f2c400;border-radius:12px}
+.excel-export-heading{display:flex;flex-direction:column;gap:3px}.excel-export-heading strong{font-size:13px;letter-spacing:.045em;color:#403600}.excel-export-heading span,.excel-export-footnote{font-size:11px;color:var(--muted)}
+.excel-export-buttons{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}.excel-export-buttons .export-btn{min-height:38px}
+.excel-export-footnote{grid-column:1/-1;margin-top:-2px}
+.export-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #d7b400;background:#fff9df;color:#463900;border-radius:8px;padding:9px 12px;font:700 12px Inter,Segoe UI,Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background .2s,border-color .2s,transform .1s}
+.export-btn:hover{background:#ffefaa;border-color:#b99a00}
+.export-btn:active{transform:translateY(1px)}
+.export-btn-primary{background:#f2c400;border-color:#d6ae00;color:#252a32}
+.export-btn-primary:hover{background:#ffda24;border-color:#b99a00}
+.section-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.section-heading-row h2{margin:0}
+.daily-head>.export-btn{margin-left:auto}
+.yoy-export-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+@media(max-width:900px){.excel-export-panel{grid-template-columns:1fr}.excel-export-buttons{justify-content:flex-start}.excel-export-footnote{grid-column:1}}
+@media(max-width:650px){.excel-export-panel{padding:13px;gap:9px}.excel-export-buttons{display:grid;grid-template-columns:1fr 1fr}.excel-export-buttons .export-btn{white-space:normal;min-height:44px}.yoy-export-actions{width:100%;justify-content:space-between}}.export-toolbar span{max-width:45%}.export-btn{padding:8px 10px;font-size:11px}.yoy-export-actions{width:100%;justify-content:space-between}}
 </style>
 <style>
 #yoyPanel table{min-width:980px;font-size:12px}
@@ -173,11 +187,20 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ativar tema escuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">🌙</span><span class="theme-label">Tela escura</span></button>
 </header>
 <main>
+<section class="excel-export-panel" aria-label="Exportação de dados para Excel">
+ <div class="excel-export-heading"><strong>EXPORTAR DADOS PARA EXCEL</strong><span>Escolha o conteúdo que deseja baixar</span></div>
+ <div class="excel-export-buttons">
+  <button type="button" class="export-btn export-btn-primary" id="exportAllExcel">⬇ Excel completo — 11 abas</button>
+  <button type="button" class="export-btn" id="exportIndicatorsExcel">Indicadores por polo</button>
+  <button type="button" class="export-btn" id="exportDailyExcel">Acompanhamento diário</button>
+  <button type="button" class="export-btn" id="exportYoyExcel">Comparativo YOY</button>
+ </div>
+ <div class="excel-export-footnote">As exportações específicas respeitam os filtros e a data selecionada em cada quadro.</div>
+</section>
 <div class="filters">
 <label>Operação<select id="op"><option value="Todas">Todas as operações</option><option>Operação Própria I</option><option>Operação Própria II</option></select></label>
 <label>Polo<select id="polo"><option value="Todos">Todos os polos</option></select></label>
 <label>Estado<select id="uf"><option value="Todos">Todos os estados</option></select></label>
-<div class="export-toolbar"><span>Baixe os dados do dashboard em Excel</span><button type="button" class="export-btn export-btn-primary" id="exportAllExcel">Exportar tudo para Excel</button></div>
 </div>
 <section class="cards">
 <div class="card"><div class="klabel">Inscritos</div><div class="kvalue" id="kIns">—</div><div class="ksub">Registros de inscrição</div><div class="yoy-delta" id="kInsYOYDiff" style="display:none"></div></div>
@@ -199,14 +222,14 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 <div class="panel"><h2>Ranking de pagamentos</h2><div class="rankwrap"><div class="rankcol"><h3>Top 5</h3><div id="pagTop"></div></div><div class="rankcol"><h3>5 menores</h3><div id="pagBottom"></div></div></div></div>
 </div>
 <div class="grid3" style="grid-template-columns:1fr">
-<div class="panel"><div class="section-heading-row"><h2>Indicadores por polo</h2><button type="button" class="export-btn" id="exportIndicatorsExcel">Exportar Excel</button></div><div class="tablewrap"><table><thead><tr><th class="sortable" data-sort="Polo" title="Clique para ordenar">Polo ↕</th><th class="sortable" data-sort="Operação" title="Clique para ordenar">Operação ↕</th><th class="sortable" data-sort="Inscritos" title="Clique para ordenar">Inscritos ↕</th><th class="sortable" data-sort="Matrículas" title="Clique para ordenar">Matrículas ↕</th><th class="sortable" data-sort="Pagamentos" title="Clique para ordenar">Pagamentos ↕</th><th class="sortable" data-sort="Conv_Ins_Mat" title="Clique para ordenar">Conv. I→M ↕</th><th class="sortable" data-sort="Conv_Mat_Pag" title="Clique para ordenar">Conv. M→P ↕</th></tr></thead><tbody id="detail"></tbody></table></div></div>
+<div class="panel"><div class="section-heading-row"><h2>Indicadores por polo</h2></div><div class="tablewrap"><table><thead><tr><th class="sortable" data-sort="Polo" title="Clique para ordenar">Polo ↕</th><th class="sortable" data-sort="Operação" title="Clique para ordenar">Operação ↕</th><th class="sortable" data-sort="Inscritos" title="Clique para ordenar">Inscritos ↕</th><th class="sortable" data-sort="Matrículas" title="Clique para ordenar">Matrículas ↕</th><th class="sortable" data-sort="Pagamentos" title="Clique para ordenar">Pagamentos ↕</th><th class="sortable" data-sort="Conv_Ins_Mat" title="Clique para ordenar">Conv. I→M ↕</th><th class="sortable" data-sort="Conv_Mat_Pag" title="Clique para ordenar">Conv. M→P ↕</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 </div>
 <div class="panel"><h2>Leitura dos dados e critérios</h2>
 <p class="note"><span class="pill">Base: arquivos enviados</span> Foram identificados 54 polos na Operação Própria I e 50 na Operação Própria II. Cada linha do arquivo foi considerada uma inscrição; matrículas foram contadas quando <b>MATRICULOU = S</b>; pagamentos quando <b>PRIMEIRA_MENSALIDADE_COBRADA_PAGA = S</b>. A evolução diária usa DATA_DA_INSCRICAO para inscritos, DATA_MATRICULA para matrículas e DATA_PAGAMENTO_PAINEL para pagamentos. A evolução diária considera todo o período disponível na extração; os cartões, rankings e tabela refletem o conjunto total dos arquivos.</p>
 <p class="note"><b>Atenção:</b> a extração atual registra 26 pagamentos com o indicador de primeira mensalidade cobrada paga (19 na Op. I e 7 na Op. II). Isso pode representar apenas o pagamento inicial identificado nesse campo, e não necessariamente todos os pagamentos financeiros do aluno. Recomenda-se validar esse critério com a área responsável antes de usar o indicador como total oficial de pagamentos.</p>
 </div>
 <section class="daily-panel" id="dailyTracking" style="margin-top:28px">
-<div class="daily-head"><div><h2>Acompanhamento Diário por Polo</h2><div class="note">Consulte o realizado de inscrições, matrículas e pagamentos por polo e por data, com base nas extrações de 26/11/2026.</div></div><button type="button" class="export-btn" id="exportDailyExcel">Exportar Excel</button></div>
+<div class="daily-head"><div><h2>Acompanhamento Diário por Polo</h2><div class="note">Consulte o realizado de inscrições, matrículas e pagamentos por polo e por data, com base nas extrações de 26/11/2026.</div></div></div>
 <div class="daily-controls"><label>Selecionar data<select id="dailyDate"></select></label><label>Operação<select id="dailyOp"><option value="Todas">Todas as operações</option><option>Operação Própria I</option><option>Operação Própria II</option></select></label><label>Pesquisar polo<input id="dailySearch" placeholder="Digite o nome do polo" type="search"/></label></div>
 <div class="daily-kpis" id="dailyKpis"></div>
 <div class="daily-table"><table id="dailyTable"><thead><tr><th>Operação</th><th><button class="sort-daily" data-key="Polo" type="button">Polo ↕</button></th><th><button class="sort-daily" data-key="Inscritos" type="button">Inscritos no dia ↕</button></th><th><button class="sort-daily" data-key="Matrículas" type="button">Matrículas no dia ↕</button></th><th><button class="sort-daily" data-key="Pagamentos" type="button">Pagamentos no dia ↕</button></th></tr></thead><tbody></tbody></table></div>
@@ -265,7 +288,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap">
 <div><h2 style="font-size:18px;margin:0 0 5px">Acompanhamento YOY — realizado x ano anterior</h2>
 <p style="margin:0;color:var(--muted)">Compare inscritos e matrículas por operação, considerando a data atual e o dia equivalente na base histórica YOY. O acumulado está atualizado até 26/11/2026.</p></div>
-<div class="yoy-export-actions"><div style="font-size:11px;color:var(--muted);font-weight:650">BASE YOY: PLANILHA AJUSTADA 26/11/2026</div><button type="button" class="export-btn" id="exportYoyExcel">Exportar Excel</button></div>
+<div class="yoy-export-actions"><div style="font-size:11px;color:var(--muted);font-weight:650">BASE YOY: PLANILHA AJUSTADA 26/11/2026</div></div>
 </div>
 <div class="filters" style="margin:14px 0">
 <label>Data atual<select id="yoyDate"></select></label>
