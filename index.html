@@ -110,31 +110,28 @@ main{width:100%;max-width:1500px;margin:0 auto}
 .period-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
 .period-heading h2{font-size:18px;margin:0 0 5px}
 .period-intro{font-size:12px;color:var(--muted);margin:0;max-width:920px;line-height:1.5}
-.period-filters{display:grid;grid-template-columns:repeat(5,minmax(125px,1fr)) auto;gap:10px;align-items:end;padding:14px;background:#f8f9fa;border:1px solid var(--line);border-radius:10px}
-.period-filters label{min-width:0}
-.period-filters input,.period-filters select{min-width:0;width:100%;height:38px}
+.period-range-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.period-range-card{padding:14px;background:#f8f9fa;border:1px solid var(--line);border-radius:10px;min-width:0}
+.period-range-card h3{font-size:13px;margin:0 0 10px}
+.period-range-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.period-range-inputs label,.period-filters label{min-width:0}
+.period-range-inputs input,.period-filters select{min-width:0;width:100%;height:38px}
+.period-filters{display:grid;grid-template-columns:repeat(3,minmax(140px,1fr)) auto;gap:10px;align-items:end;padding:14px;background:#f8f9fa;border:1px solid var(--line);border-radius:10px}
 .period-apply{height:38px}
 .period-message{font-size:11px;color:var(--muted);min-height:16px;margin:10px 0}
 .period-message.error{color:#b42318;font-weight:700}
-.period-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0 18px}
-.period-kpi{padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
-.period-kpi span{display:block;color:var(--muted);font-size:10px;letter-spacing:.05em;font-weight:800}
-.period-kpi strong{display:block;font-size:26px;line-height:1.2;margin:5px 0;color:var(--ink);font-variant-numeric:tabular-nums}
-.period-kpi small{display:block;color:var(--muted);font-size:11px;line-height:1.4}
-.period-kpi small.period-up{color:#16803c;font-weight:750}
-.period-kpi small.period-down{color:#c62828;font-weight:750}
-.period-table-wrap{margin-top:18px}
-.period-table-wrap h3{font-size:14px;margin:0 0 10px}
-.period-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px}
-#periodWeeklyTable{min-width:560px}
-#periodWeeklyTable th{position:static;text-align:center}
-#periodWeeklyTable td{text-align:center;font-variant-numeric:tabular-nums}
-#periodWeeklyTable td:first-child{text-align:left;font-weight:700}
-#periodWeeklyTable .period-up{color:#16803c;font-weight:750}
-#periodWeeklyTable .period-down{color:#c62828;font-weight:750}
+.period-table-wrap{margin-top:18px;overflow-x:auto;border:1px solid var(--line);border-radius:9px}
+.period-table-wrap h3{font-size:14px;margin:0 0 10px;padding:12px 12px 0}
+#periodCompareTable{min-width:650px}
+#periodCompareTable th{position:static;text-align:center}
+#periodCompareTable td{text-align:center;font-variant-numeric:tabular-nums}
+#periodCompareTable td:first-child{text-align:left;font-weight:700}
+#periodCompareTable .period-up{color:#16803c;font-weight:750}
+#periodCompareTable .period-down{color:#c62828;font-weight:750}
 .period-footnote{font-size:11px;line-height:1.5;color:var(--muted);margin:12px 0 0}
-@media(max-width:1050px){.period-filters{grid-template-columns:repeat(3,minmax(125px,1fr))}.period-apply{width:100%}}
-@media(max-width:640px){.period-filters{grid-template-columns:1fr 1fr;gap:9px}.period-kpis{grid-template-columns:1fr}.period-kpi{padding:12px}.period-kpi strong{font-size:23px}.period-heading>.export-btn{width:100%}}
+@media(max-width:1050px){.period-filters{grid-template-columns:repeat(2,minmax(140px,1fr))}.period-apply{width:100%}}
+@media(max-width:700px){.period-range-grid{grid-template-columns:1fr}.period-range-inputs{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.period-filters{grid-template-columns:1fr 1fr;gap:9px}.period-heading>.export-btn{width:100%}}
 
 </style>
 <style>
@@ -335,33 +332,42 @@ document.addEventListener('DOMContentLoaded',function(){
 
 <section class="panel period-panel" id="periodAnalysis" style="margin-top:18px">
  <div class="period-heading">
-  <div><h2>Análise por Período — acompanhamento semanal</h2>
-   <p class="period-intro">Selecione um intervalo e combine os filtros para acompanhar inscritos, matrículas e pagamentos. A comparação do período considera o intervalo anterior de mesma duração; o detalhamento apresenta os resultados por semana.</p>
+  <div><h2>Análise comparativa por período</h2>
+   <p class="period-intro">Defina as datas do período inicial e do período final. O detalhamento abaixo compara inscritos, matrículas e pagamentos, mostrando a diferença absoluta e a variação percentual.</p>
   </div>
-  <button type="button" class="export-btn" id="exportPeriodExcel">⬇ Exportar período para Excel</button>
+  <button type="button" class="export-btn" id="exportPeriodExcel">⬇ Exportar comparação para Excel</button>
+ </div>
+ <div class="period-range-grid">
+  <div class="period-range-card">
+   <h3>Período inicial</h3>
+   <div class="period-range-inputs">
+    <label>Data inicial<input type="date" id="periodInitialStart" min="2026-11-01" max="2026-11-26" value="2026-11-01"/></label>
+    <label>Data final<input type="date" id="periodInitialEnd" min="2026-11-01" max="2026-11-26" value="2026-11-07"/></label>
+   </div>
+  </div>
+  <div class="period-range-card">
+   <h3>Período final</h3>
+   <div class="period-range-inputs">
+    <label>Data inicial<input type="date" id="periodFinalStart" min="2026-11-01" max="2026-11-26" value="2026-11-08"/></label>
+    <label>Data final<input type="date" id="periodFinalEnd" min="2026-11-01" max="2026-11-26" value="2026-11-14"/></label>
+   </div>
+  </div>
  </div>
  <div class="period-filters">
-  <label>Data inicial<input type="date" id="periodStart" min="2026-11-01" max="2026-11-26" value="2026-11-01"/></label>
-  <label>Data final<input type="date" id="periodEnd" min="2026-11-01" max="2026-11-26" value="2026-11-26"/></label>
   <label>Operação<select id="periodOp"><option value="Todas">Todas as operações</option><option value="Operação Própria I">Operação Própria I</option><option value="Operação Própria II">Operação Própria II</option></select></label>
   <label>Polo<select id="periodPolo"><option value="Todos">Todos os polos</option></select></label>
   <label>Estado<select id="periodUf"><option value="Todos">Todos os estados</option></select></label>
   <button type="button" class="export-btn export-btn-primary period-apply" id="periodApply">Aplicar filtros</button>
  </div>
  <p class="period-message" id="periodMessage" aria-live="polite"></p>
- <div class="period-kpis">
-  <div class="period-kpi"><span>INSCRITOS NO PERÍODO</span><strong id="periodInsTotal">—</strong><small id="periodInsCompare">—</small></div>
-  <div class="period-kpi"><span>MATRÍCULAS NO PERÍODO</span><strong id="periodMatTotal">—</strong><small id="periodMatCompare">—</small></div>
-  <div class="period-kpi"><span>PAGAMENTOS NO PERÍODO</span><strong id="periodPayTotal">—</strong><small id="periodPayCompare">—</small></div>
- </div>
  <div class="period-table-wrap">
-  <h3>Detalhamento semanal</h3>
-  <table id="periodWeeklyTable">
-   <thead><tr><th>Semana (período)</th><th>Inscritos</th><th>Matrículas</th><th>Pagamentos</th></tr></thead>
-   <tbody><tr><td colspan="4">Selecione os filtros e aplique a análise.</td></tr></tbody>
+  <h3>Detalhamento comparativo</h3>
+  <table id="periodCompareTable">
+   <thead><tr><th>Indicador</th><th>Período inicial</th><th>Período final</th><th>Diferença</th><th>Variação (%)</th></tr></thead>
+   <tbody><tr><td colspan="5">Selecione os períodos e aplique a análise.</td></tr></tbody>
   </table>
  </div>
- <p class="period-footnote">As semanas seguem o calendário de segunda a domingo; a primeira e a última podem aparecer parciais conforme as datas selecionadas. O período anterior só é comparado quando está coberto pela base disponível (01/11/2026 a 26/11/2026).</p>
+ <p class="period-footnote">A diferença corresponde ao período final menos o período inicial. A variação percentual é calculada sobre o período inicial; quando a base inicial for zero, o percentual não se aplica. Datas disponíveis na base: 01/11/2026 a 26/11/2026.</p>
 </section>
 
 </main>
@@ -657,21 +663,25 @@ document.addEventListener('DOMContentLoaded', function(){
 <script>
 (function(){
  const $=id=>document.getElementById(id);
- const startEl=$('periodStart'),endEl=$('periodEnd'),opEl=$('periodOp'),poloEl=$('periodPolo'),ufEl=$('periodUf'),applyBtn=$('periodApply');
- if(!startEl||!endEl||!opEl||!poloEl||!ufEl||!applyBtn)return;
+ const initialStartEl=$('periodInitialStart'),initialEndEl=$('periodInitialEnd'),finalStartEl=$('periodFinalStart'),finalEndEl=$('periodFinalEnd');
+ const opEl=$('periodOp'),poloEl=$('periodPolo'),ufEl=$('periodUf'),applyBtn=$('periodApply');
+ if(!initialStartEl||!initialEndEl||!finalStartEl||!finalEndEl||!opEl||!poloEl||!ufEl||!applyBtn)return;
  const rows=DATA.daily||[];
  const allDates=[...new Set(rows.map(r=>String(r.Data||'').slice(0,10)).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)))].sort();
  const minDate=allDates[0],maxDate=allDates.at(-1);
- startEl.min=endEl.min=minDate;startEl.max=endEl.max=maxDate;
- if(!startEl.value)startEl.value=minDate;if(!endEl.value)endEl.value=maxDate;
- const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR');
- const stateOf=p=>{const m=String(p||'').match(/\/([A-Z]{2})(?=\s|$|-)/);return m?m[1]:'Não identificado';};
- const fmt=n=>Number(n||0).toLocaleString('pt-BR');
- const br=d=>String(d||'').split('-').reverse().join('/');
+ [initialStartEl,initialEndEl,finalStartEl,finalEndEl].forEach(el=>{el.min=minDate;el.max=maxDate;});
  const dateObj=d=>{const [y,m,day]=d.split('-').map(Number);return new Date(Date.UTC(y,m-1,day));};
  const iso=d=>d.toISOString().slice(0,10);
  const addDays=(d,n)=>{const x=dateObj(d);x.setUTCDate(x.getUTCDate()+n);return iso(x);};
  const daysBetween=(a,b)=>Math.round((dateObj(b)-dateObj(a))/86400000);
+ if(!initialStartEl.value)initialStartEl.value=minDate;
+ if(!initialEndEl.value)initialEndEl.value=addDays(minDate,Math.min(6,daysBetween(minDate,maxDate)));
+ if(!finalStartEl.value)finalStartEl.value=addDays(minDate,Math.min(7,daysBetween(minDate,maxDate)));
+ if(!finalEndEl.value)finalEndEl.value=addDays(minDate,Math.min(13,daysBetween(minDate,maxDate)));
+ const stateOf=p=>{const m=String(p||'').match(/\/([A-Z]{2})(?=\s|$|-)/);return m?m[1]:'Não identificado';};
+ const fmt=n=>Number(n||0).toLocaleString('pt-BR');
+ const br=d=>String(d||'').split('-').reverse().join('/');
+ const pct=n=>Number(n).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
  const stateList=()=>[...new Set(DATA.polo.filter(p=>opEl.value==='Todas'||p.Operação===opEl.value).map(p=>stateOf(p.Polo)).filter(x=>x!=='Não identificado'))].sort();
  function setOptions(el,values,first){
   const old=el.value;el.innerHTML='';
@@ -695,81 +705,77 @@ document.addEventListener('DOMContentLoaded', function(){
  function totalsFor(data){
   return data.reduce((a,r)=>{if(Object.prototype.hasOwnProperty.call(a,r.Indicador))a[r.Indicador]+=Number(r.Quantidade||0);return a;},{Inscritos:0,Matrículas:0,Pagamentos:0});
  }
- function weekBuckets(data,start,end){
-  const map=new Map();
-  const first=dateObj(start),last=dateObj(end);
-  const mondayOffset=(first.getUTCDay()+6)%7;
-  first.setUTCDate(first.getUTCDate()-mondayOffset);
-  for(let w=new Date(first);w<=last;w.setUTCDate(w.getUTCDate()+7)){
-   const weekStart=iso(new Date(w)),weekEnd=addDays(weekStart,6);
-   const clippedStart=weekStart<start?start:weekStart,clippedEnd=weekEnd>end?end:weekEnd;
-   map.set(weekStart,{start:clippedStart,end:clippedEnd,Inscritos:0,Matrículas:0,Pagamentos:0});
-  }
-  data.forEach(r=>{
-   const d=dateObj(r.Data),offset=(d.getUTCDay()+6)%7;d.setUTCDate(d.getUTCDate()-offset);
-   const key=iso(d),bucket=map.get(key);
-   if(bucket&&Object.prototype.hasOwnProperty.call(bucket,r.Indicador))bucket[r.Indicador]+=Number(r.Quantidade||0);
-  });
-  return [...map.entries()].map(([key,v])=>({Semana:key,Período:br(v.start)+' a '+br(v.end),...v}));
- }
- function metricChange(current,previous){
-  const delta=current-previous;
-  let rate;
-  if(previous===0)rate=current===0?0:null;else rate=delta/previous*100;
-  return {delta,rate};
- }
- function changeLabel(current,previous){
-  const c=metricChange(current,previous);
-  if(c.rate===null)return (c.delta>0?'+':'')+fmt(c.delta)+' | base anterior zero';
-  const sign=c.delta>0?'+':'';
-  return sign+fmt(c.delta)+' ('+(c.rate>0?'+':'')+c.rate.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%)';
- }
- function changeClass(current,previous){const d=current-previous;return d>0?'period-up':d<0?'period-down':'';}
- function showComparison(el,current,previous,label){
-  el.className='';
-  if(previous===null){el.textContent='Comparação com período anterior indisponível na base.';return;}
-  el.className=changeClass(current,previous);
-  el.textContent=label+': '+changeLabel(current,previous)+' vs. período anterior ('+fmt(previous)+')';
+ function compareMetric(initial,final){
+  const difference=final-initial;
+  const variation=initial===0?(final===0?0:null):(difference/initial*100);
+  return {difference,variation};
  }
  let lastExport=null;
  function compute(){
-  const start=startEl.value,end=endEl.value;
-  if(!start||!end){$('periodMessage').textContent='Informe as duas datas.';$('periodMessage').className='period-message error';return null;}
-  if(start>end){$('periodMessage').textContent='A data inicial deve ser anterior ou igual à data final.';$('periodMessage').className='period-message error';return null;}
-  if(start<minDate||end>maxDate){$('periodMessage').textContent='Selecione datas dentro da base disponível: '+br(minDate)+' a '+br(maxDate)+'.';$('periodMessage').className='period-message error';return null;}
-  const currentRows=filterRows(start,end),current=totalsFor(currentRows),periodDays=daysBetween(start,end)+1;
-  const prevEnd=addDays(start,-1),prevStart=addDays(prevEnd,-periodDays+1);
-  const hasPrevious=prevStart>=minDate&&prevEnd<=maxDate;
-  const prevRows=hasPrevious?filterRows(prevStart,prevEnd):[];
-  const previous=hasPrevious?totalsFor(prevRows):null;
-  const weeks=weekBuckets(currentRows,start,end);
-  const daily=Array.from({length:periodDays},(_,i)=>{
-   const date=addDays(start,i),dayRows=currentRows.filter(r=>r.Data===date);
-   const t=totalsFor(dayRows);
-   return {Data:date,Operação:opEl.value,Polo:poloEl.value,Estado:ufEl.value,Inscritos:t.Inscritos,Matrículas:t.Matrículas,Pagamentos:t.Pagamentos};
+  const iStart=initialStartEl.value,iEnd=initialEndEl.value,fStart=finalStartEl.value,fEnd=finalEndEl.value;
+  const ranges=[['Período inicial',iStart,iEnd],['Período final',fStart,fEnd]];
+  if(ranges.some(r=>!r[1]||!r[2])){
+   $('periodMessage').textContent='Preencha as datas inicial e final dos dois períodos.';
+   $('periodMessage').className='period-message error';return null;
+  }
+  for(const [label,start,end] of ranges){
+   if(start>end){$('periodMessage').textContent='A data inicial deve ser anterior ou igual à data final no '+label.toLocaleLowerCase('pt-BR')+'.';$('periodMessage').className='period-message error';return null;}
+   if(start<minDate||end>maxDate){$('periodMessage').textContent='Selecione datas dentro da base disponível: '+br(minDate)+' a '+br(maxDate)+'.';$('periodMessage').className='period-message error';return null;}
+  }
+  const initialTotals=totalsFor(filterRows(iStart,iEnd));
+  const finalTotals=totalsFor(filterRows(fStart,fEnd));
+  const indicators=['Inscritos','Matrículas','Pagamentos'];
+  const comparison=indicators.map(indicator=>{
+   const a=initialTotals[indicator],b=finalTotals[indicator],c=compareMetric(a,b);
+   return {
+    Indicador:indicator,
+    'Período inicial':a,
+    'Período final':b,
+    Diferença:c.difference,
+    'Variação (%)':c.variation===null?'Base inicial zero':c.variation
+   };
   });
-  $('periodInsTotal').textContent=fmt(current.Inscritos);$('periodMatTotal').textContent=fmt(current.Matrículas);$('periodPayTotal').textContent=fmt(current.Pagamentos);
-  showComparison($('periodInsCompare'),current.Inscritos,previous?previous.Inscritos:null,'Variação');
-  showComparison($('periodMatCompare'),current.Matrículas,previous?previous.Matrículas:null,'Variação');
-  showComparison($('periodPayCompare'),current.Pagamentos,previous?previous.Pagamentos:null,'Variação');
+  const comparisonHtml=comparison.map(row=>{
+   const difference=Number(row.Diferença||0);
+   const variation=row['Variação (%)'];
+   const changeClass=difference>0?'period-up':difference<0?'period-down':'';
+   const differenceText=(difference>0?'+':'')+fmt(difference);
+   const variationText=typeof variation==='number'?(variation>0?'+':'')+pct(variation):'— (base inicial zero)';
+   return '<tr><td>'+row.Indicador+'</td><td>'+fmt(row['Período inicial'])+'</td><td>'+fmt(row['Período final'])+'</td><td class="'+changeClass+'">'+differenceText+'</td><td class="'+changeClass+'">'+variationText+'</td></tr>';
+  }).join('');
+  $('periodCompareTable').querySelector('tbody').innerHTML=comparisonHtml||'<tr><td colspan="5">Não há dados para os filtros selecionados.</td></tr>';
+  const poloCount=selectedPoloSet().length;
   $('periodMessage').className='period-message';
-  $('periodMessage').textContent=br(start)+' a '+br(end)+' • '+selectedPoloSet().length+' polo(s) no recorte • '+periodDays+' dia(s) • '+(hasPrevious?'Comparação anterior: '+br(prevStart)+' a '+br(prevEnd):'Sem período anterior equivalente na base disponível');
-  const body=weeks.map(w=>'<tr><td>'+w.Período+'</td><td>'+fmt(w.Inscritos)+'</td><td>'+fmt(w.Matrículas)+'</td><td>'+fmt(w.Pagamentos)+'</td></tr>').join('');
-  $('periodWeeklyTable').querySelector('tbody').innerHTML=body||'<tr><td colspan="4">Não há movimentação para os filtros selecionados.</td></tr>';
-  const summary=[
-   {Indicador:'Data inicial',Valor:start},{Indicador:'Data final',Valor:end},
-   {Indicador:'Operação',Valor:opEl.value},{Indicador:'Polo',Valor:poloEl.value},{Indicador:'Estado',Valor:ufEl.value},
-   {Indicador:'Inscritos',Valor:current.Inscritos},{Indicador:'Matrículas',Valor:current.Matrículas},{Indicador:'Pagamentos',Valor:current.Pagamentos},
-   {Indicador:'Dias no período',Valor:periodDays},{Indicador:'Período anterior disponível',Valor:hasPrevious?br(prevStart)+' a '+br(prevEnd):'Não disponível'},
-   {Indicador:'Inscritos período anterior',Valor:previous?.Inscritos??''},{Indicador:'Matrículas período anterior',Valor:previous?.Matrículas??''},{Indicador:'Pagamentos período anterior',Valor:previous?.Pagamentos??''}
+  $('periodMessage').textContent='Inicial: '+br(iStart)+' a '+br(iEnd)+' • Final: '+br(fStart)+' a '+br(fEnd)+' • '+poloCount+' polo(s) no recorte';
+  const dailyFor=(start,end,label)=>{
+   const out=[];
+   for(let date=start;date<=end;date=addDays(date,1)){
+    const t=totalsFor(filterRows(date,date));
+    out.push({Período:label,Data:date,Operação:opEl.value,Polo:poloEl.value,Estado:ufEl.value,Inscritos:t.Inscritos,Matrículas:t.Matrículas,Pagamentos:t.Pagamentos});
+   }
+   return out;
+  };
+  const daily=[
+   ...dailyFor(iStart,iEnd,'Período inicial'),
+   ...dailyFor(fStart,fEnd,'Período final')
   ];
-  const weeklyExport=weeks.map(w=>({Semana:w.Período,Inscritos:w.Inscritos,Matrículas:w.Matrículas,Pagamentos:w.Pagamentos}));
-  lastExport={summary,weeks:weeklyExport,daily,previousAvailable:hasPrevious};
+  const summary=[
+   {Campo:'Data inicial — período inicial',Valor:iStart},
+   {Campo:'Data final — período inicial',Valor:iEnd},
+   {Campo:'Data inicial — período final',Valor:fStart},
+   {Campo:'Data final — período final',Valor:fEnd},
+   {Campo:'Operação',Valor:opEl.value},
+   {Campo:'Polo',Valor:poloEl.value},
+   {Campo:'Estado',Valor:ufEl.value},
+   ...indicators.map(indicator=>({Campo:indicator+' — período inicial',Valor:initialTotals[indicator]})),
+   ...indicators.map(indicator=>({Campo:indicator+' — período final',Valor:finalTotals[indicator]}))
+  ];
+  lastExport={summary,comparison,daily};
   return lastExport;
  }
  function render(){const data=compute();if(data)window.getPeriodAnalysisExportData=()=>data;}
- opEl.addEventListener('change',()=>{refreshFilters(true);});
- ufEl.addEventListener('change',()=>{refreshFilters(false);});
+ opEl.addEventListener('change',()=>refreshFilters(true));
+ ufEl.addEventListener('change',()=>refreshFilters(false));
  applyBtn.addEventListener('click',render);
  refreshFilters(true);
  applyBtn.click();
@@ -779,12 +785,12 @@ document.addEventListener('DOMContentLoaded', function(){
   if(!window.XLSX){alert('Não foi possível carregar o recurso de Excel. Atualize a página e tente novamente.');return;}
   const wb=XLSX.utils.book_new();
   const sheets=[
-   ['Resumo do período',data.summary],
-   ['Evolução semanal',data.weeks],
+   ['Resumo dos períodos',data.summary],
+   ['Comparação',data.comparison],
    ['Detalhamento diário',data.daily]
   ];
-  sheets.forEach(([name,rows])=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),name));
-  XLSX.writeFile(wb,'Analise_por_periodo_'+new Date().toISOString().slice(0,10)+'.xlsx',{compression:true});
+  sheets.forEach(([name,values])=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(values),name));
+  XLSX.writeFile(wb,'Comparacao_entre_periodos_'+new Date().toISOString().slice(0,10)+'.xlsx',{compression:true});
  });
 })();
 </script>
@@ -957,7 +963,7 @@ document.addEventListener('DOMContentLoaded', function(){
    {name:'Série YOY completa',rows:yoyFull}
   ];
   const period=window.getPeriodAnalysisExportData?.();
-  if(period){sheets.push({name:'Resumo do período',rows:period.summary},{name:'Evolução semanal',rows:period.weeks},{name:'Detalhamento diário',rows:period.daily});}
+  if(period){sheets.push({name:'Resumo dos períodos',rows:period.summary},{name:'Comparação entre períodos',rows:period.comparison},{name:'Detalhamento dos períodos',rows:period.daily});}
   return sheets;
  }
  function bind(id,fn){const b=$(id);if(b)b.addEventListener('click',()=>{try{fn();}catch(e){console.error(e);alert('Não foi possível gerar o Excel. Confira a conexão e tente novamente.');}});}
