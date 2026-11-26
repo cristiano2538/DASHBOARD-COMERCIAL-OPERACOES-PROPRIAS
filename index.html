@@ -79,6 +79,19 @@ main{width:100%;max-width:1500px;margin:0 auto}
 @media(max-width:1100px){.charts-overview{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.charts-overview>.panel:first-child{grid-column:1/-1}}
 @media(max-width:680px){.charts-overview{grid-template-columns:minmax(0,1fr)}.charts-overview>.panel:first-child{grid-column:auto}}
 
+
+.export-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex:1;min-width:260px;margin-left:auto}
+.export-toolbar span{font-size:11px;color:var(--muted);font-weight:600}
+.export-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #d7b400;background:#fff9df;color:#463900;border-radius:8px;padding:9px 12px;font:700 12px Inter,Segoe UI,Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background .2s,border-color .2s,transform .1s}
+.export-btn:hover{background:#ffefaa;border-color:#b99a00}
+.export-btn:active{transform:translateY(1px)}
+.export-btn-primary{background:#f2c400;border-color:#d6ae00;color:#252a32}
+.export-btn-primary:hover{background:#ffda24;border-color:#b99a00}
+.section-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.section-heading-row h2{margin:0}
+.daily-head>.export-btn{margin-left:auto}
+.yoy-export-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+@media(max-width:650px){.export-toolbar{width:100%;justify-content:space-between;min-width:0;margin-left:0}.export-toolbar span{max-width:45%}.export-btn{padding:8px 10px;font-size:11px}.yoy-export-actions{width:100%;justify-content:space-between}}
 </style>
 <style>
 #yoyPanel table{min-width:980px;font-size:12px}
@@ -164,6 +177,7 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 <label>Operação<select id="op"><option value="Todas">Todas as operações</option><option>Operação Própria I</option><option>Operação Própria II</option></select></label>
 <label>Polo<select id="polo"><option value="Todos">Todos os polos</option></select></label>
 <label>Estado<select id="uf"><option value="Todos">Todos os estados</option></select></label>
+<div class="export-toolbar"><span>Baixe os dados do dashboard em Excel</span><button type="button" class="export-btn export-btn-primary" id="exportAllExcel">Exportar tudo para Excel</button></div>
 </div>
 <section class="cards">
 <div class="card"><div class="klabel">Inscritos</div><div class="kvalue" id="kIns">—</div><div class="ksub">Registros de inscrição</div><div class="yoy-delta" id="kInsYOYDiff" style="display:none"></div></div>
@@ -185,14 +199,14 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 <div class="panel"><h2>Ranking de pagamentos</h2><div class="rankwrap"><div class="rankcol"><h3>Top 5</h3><div id="pagTop"></div></div><div class="rankcol"><h3>5 menores</h3><div id="pagBottom"></div></div></div></div>
 </div>
 <div class="grid3" style="grid-template-columns:1fr">
-<div class="panel"><h2>Indicadores por polo</h2><div class="tablewrap"><table><thead><tr><th class="sortable" data-sort="Polo" title="Clique para ordenar">Polo ↕</th><th class="sortable" data-sort="Operação" title="Clique para ordenar">Operação ↕</th><th class="sortable" data-sort="Inscritos" title="Clique para ordenar">Inscritos ↕</th><th class="sortable" data-sort="Matrículas" title="Clique para ordenar">Matrículas ↕</th><th class="sortable" data-sort="Pagamentos" title="Clique para ordenar">Pagamentos ↕</th><th class="sortable" data-sort="Conv_Ins_Mat" title="Clique para ordenar">Conv. I→M ↕</th><th class="sortable" data-sort="Conv_Mat_Pag" title="Clique para ordenar">Conv. M→P ↕</th></tr></thead><tbody id="detail"></tbody></table></div></div>
+<div class="panel"><div class="section-heading-row"><h2>Indicadores por polo</h2><button type="button" class="export-btn" id="exportIndicatorsExcel">Exportar Excel</button></div><div class="tablewrap"><table><thead><tr><th class="sortable" data-sort="Polo" title="Clique para ordenar">Polo ↕</th><th class="sortable" data-sort="Operação" title="Clique para ordenar">Operação ↕</th><th class="sortable" data-sort="Inscritos" title="Clique para ordenar">Inscritos ↕</th><th class="sortable" data-sort="Matrículas" title="Clique para ordenar">Matrículas ↕</th><th class="sortable" data-sort="Pagamentos" title="Clique para ordenar">Pagamentos ↕</th><th class="sortable" data-sort="Conv_Ins_Mat" title="Clique para ordenar">Conv. I→M ↕</th><th class="sortable" data-sort="Conv_Mat_Pag" title="Clique para ordenar">Conv. M→P ↕</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 </div>
 <div class="panel"><h2>Leitura dos dados e critérios</h2>
 <p class="note"><span class="pill">Base: arquivos enviados</span> Foram identificados 54 polos na Operação Própria I e 50 na Operação Própria II. Cada linha do arquivo foi considerada uma inscrição; matrículas foram contadas quando <b>MATRICULOU = S</b>; pagamentos quando <b>PRIMEIRA_MENSALIDADE_COBRADA_PAGA = S</b>. A evolução diária usa DATA_DA_INSCRICAO para inscritos, DATA_MATRICULA para matrículas e DATA_PAGAMENTO_PAINEL para pagamentos. A evolução diária considera todo o período disponível na extração; os cartões, rankings e tabela refletem o conjunto total dos arquivos.</p>
 <p class="note"><b>Atenção:</b> a extração atual registra 26 pagamentos com o indicador de primeira mensalidade cobrada paga (19 na Op. I e 7 na Op. II). Isso pode representar apenas o pagamento inicial identificado nesse campo, e não necessariamente todos os pagamentos financeiros do aluno. Recomenda-se validar esse critério com a área responsável antes de usar o indicador como total oficial de pagamentos.</p>
 </div>
 <section class="daily-panel" id="dailyTracking" style="margin-top:28px">
-<div class="daily-head"><div><h2>Acompanhamento Diário por Polo</h2><div class="note">Consulte o realizado de inscrições, matrículas e pagamentos por polo e por data, com base nas extrações de 26/11/2026.</div></div></div>
+<div class="daily-head"><div><h2>Acompanhamento Diário por Polo</h2><div class="note">Consulte o realizado de inscrições, matrículas e pagamentos por polo e por data, com base nas extrações de 26/11/2026.</div></div><button type="button" class="export-btn" id="exportDailyExcel">Exportar Excel</button></div>
 <div class="daily-controls"><label>Selecionar data<select id="dailyDate"></select></label><label>Operação<select id="dailyOp"><option value="Todas">Todas as operações</option><option>Operação Própria I</option><option>Operação Própria II</option></select></label><label>Pesquisar polo<input id="dailySearch" placeholder="Digite o nome do polo" type="search"/></label></div>
 <div class="daily-kpis" id="dailyKpis"></div>
 <div class="daily-table"><table id="dailyTable"><thead><tr><th>Operação</th><th><button class="sort-daily" data-key="Polo" type="button">Polo ↕</button></th><th><button class="sort-daily" data-key="Inscritos" type="button">Inscritos no dia ↕</button></th><th><button class="sort-daily" data-key="Matrículas" type="button">Matrículas no dia ↕</button></th><th><button class="sort-daily" data-key="Pagamentos" type="button">Pagamentos no dia ↕</button></th></tr></thead><tbody></tbody></table></div>
@@ -251,7 +265,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap">
 <div><h2 style="font-size:18px;margin:0 0 5px">Acompanhamento YOY — realizado x ano anterior</h2>
 <p style="margin:0;color:var(--muted)">Compare inscritos e matrículas por operação, considerando a data atual e o dia equivalente na base histórica YOY. O acumulado está atualizado até 26/11/2026.</p></div>
-<div style="font-size:11px;color:var(--muted);font-weight:650">BASE YOY: PLANILHA AJUSTADA 26/11/2026</div>
+<div class="yoy-export-actions"><div style="font-size:11px;color:var(--muted);font-weight:650">BASE YOY: PLANILHA AJUSTADA 26/11/2026</div><button type="button" class="export-btn" id="exportYoyExcel">Exportar Excel</button></div>
 </div>
 <div class="filters" style="margin:14px 0">
 <label>Data atual<select id="yoyDate"></select></label>
@@ -553,4 +567,181 @@ document.addEventListener('DOMContentLoaded', function(){
  });
 })();
 </script>
+
+<script>
+(function(){
+ const $=id=>document.getElementById(id);
+ const fmtDate=d=>String(d||'').slice(0,10);
+ const brDate=d=>{const p=fmtDate(d).split('-');return p.length===3?p.reverse().join('/'):String(d||'');};
+ const num=n=>Number(n||0);
+ const pct=n=>num(n)/100;
+ const fileDate=()=>new Date().toLocaleDateString('pt-BR').split('/').reverse().join('-');
+ const operationLabel=o=>String(o||'').replace('Operação Própria ','Op. ');
+ const stateOf=p=>typeof getState==='function'?getState(p):'Não identificado';
+ function currentGlobalRows(){return typeof getRows==='function'?getRows():DATA.polo.slice();}
+ function currentFilters(){
+  return {
+   Operação:$('op')?.value||'Todas',
+   Polo:$('polo')?.value||'Todos',
+   Estado:$('uf')?.value||'Todos'
+  };
+ }
+ function sheetRows(rows,headers){
+  if(!rows||!rows.length)return XLSX.utils.aoa_to_sheet([headers||['Sem dados para os filtros selecionados']]);
+  return XLSX.utils.json_to_sheet(rows);
+ }
+ function addSheet(wb,name,rows,headers){
+  const ws=sheetRows(rows,headers);
+  const ref=ws['!ref']||'A1:A1';
+  const range=XLSX.utils.decode_range(ref);
+  ws['!cols']=[];
+  for(let c=range.s.c;c<=range.e.c;c++){
+   let max=12;
+   for(let rr=range.s.r;rr<=Math.min(range.e.r,120);rr++){
+    const cell=ws[XLSX.utils.encode_cell({r:rr,c})];
+    if(cell)max=Math.max(max,String(cell.v??'').length+2);
+   }
+   ws['!cols'].push({wch:Math.min(38,max)});
+  }
+  XLSX.utils.book_append_sheet(wb,ws,name.slice(0,31));
+ }
+ function makeWorkbook(sheets,fileName){
+  if(!window.XLSX){alert('Não foi possível carregar o recurso de Excel. Atualize a página e tente novamente.');return;}
+  const wb=XLSX.utils.book_new();
+  sheets.forEach(s=>addSheet(wb,s.name,s.rows,s.headers));
+  wb.Props={Title:'Dashboard Comercial - Operações Próprias',Subject:'Exportação de dados do dashboard',Author:'UNIASSELVI'};
+  XLSX.writeFile(wb,fileName,{compression:true});
+ }
+ function indicatorsRows(){
+  return currentGlobalRows().map(r=>({
+   Operação:r.Operação,Polo:r.Polo,Inscritos:num(r.Inscritos),Matrículas:num(r.Matrículas),Pagamentos:num(r.Pagamentos),
+   'Conversão Inscritos → Matrículas (%)':pct(r.Conv_Ins_Mat),
+   'Conversão Matrículas → Pagamentos (%)':pct(r.Conv_Mat_Pag)
+  }));
+ }
+ function dailyPivot(){
+  const f=currentFilters(),map=new Map();
+  (DATA.daily||[]).filter(r=>(f.Operação==='Todas'||r.Operação===f.Operação)&&(f.Polo==='Todos'||r.Polo===f.Polo)&&(f.Estado==='Todos'||stateOf(r.Polo)===f.Estado)).forEach(r=>{
+   const date=fmtDate(r.Data),key=[date,r.Operação,r.Polo].join('|');
+   if(!map.has(key))map.set(key,{Data:date,Operação:r.Operação,Polo:r.Polo,Inscritos:0,Matrículas:0,Pagamentos:0});
+   const row=map.get(key);if(Object.prototype.hasOwnProperty.call(row,r.Indicador))row[r.Indicador]+=num(r.Quantidade);
+  });
+  return [...map.values()].sort((a,b)=>a.Data.localeCompare(b.Data)||a.Operação.localeCompare(b.Operação,'pt-BR')||a.Polo.localeCompare(b.Polo,'pt-BR'));
+ }
+ function evolutionRows(){
+  const map=new Map();
+  dailyPivot().forEach(r=>{
+   const key=r.Data+'|'+r.Operação;
+   if(!map.has(key))map.set(key,{Data:r.Data,Operação:r.Operação,Inscritos:0,Matrículas:0,Pagamentos:0});
+   const a=map.get(key);a.Inscritos+=r.Inscritos;a.Matrículas+=r.Matrículas;a.Pagamentos+=r.Pagamentos;
+  });
+  return [...map.values()].sort((a,b)=>a.Data.localeCompare(b.Data)||a.Operação.localeCompare(b.Operação,'pt-BR'));
+ }
+ function stateRows(){
+  const map=new Map();
+  currentGlobalRows().forEach(r=>{
+   const uf=stateOf(r.Polo);if(!map.has(uf))map.set(uf,{Estado:uf,Inscritos:0,Matrículas:0,Pagamentos:0});
+   const a=map.get(uf);a.Inscritos+=num(r.Inscritos);a.Matrículas+=num(r.Matrículas);a.Pagamentos+=num(r.Pagamentos);
+  });
+  return [...map.values()].sort((a,b)=>b.Inscritos-a.Inscritos);
+ }
+ function rankingRows(){
+  const rows=currentGlobalRows(),out=[];
+  [['Inscritos','Inscritos'],['Matrículas','Matrículas'],['Pagamentos','Pagamentos']].forEach(([metric,label])=>{
+   const sorted=rows.slice().sort((a,b)=>num(b[metric])-num(a[metric]));
+   sorted.slice(0,5).forEach((r,i)=>out.push({Indicador:label,Grupo:'Top 5',Posição:i+1,Operação:r.Operação,Polo:r.Polo,Quantidade:num(r[metric])}));
+   sorted.slice(-5).reverse().forEach((r,i)=>out.push({Indicador:label,Grupo:'5 menores',Posição:i+1,Operação:r.Operação,Polo:r.Polo,Quantidade:num(r[metric])}));
+  });
+  return out;
+ }
+ function dailyTrackingRows(){
+  const date=$('dailyDate')?.value||'',op=$('dailyOp')?.value||'Todas',q=String($('dailySearch')?.value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR');
+  const lookup=new Map();
+  (DATA.daily||[]).filter(x=>fmtDate(x.Data)===date).forEach(x=>{
+   const k=x.Operação+'|'+x.Polo;if(!lookup.has(k))lookup.set(k,{Inscritos:0,Matrículas:0,Pagamentos:0});
+   const row=lookup.get(k);if(Object.prototype.hasOwnProperty.call(row,x.Indicador))row[x.Indicador]+=num(x.Quantidade);
+  });
+  return DATA.polo.filter(p=>(op==='Todas'||p.Operação===op)&&String(p.Polo).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').includes(q)).map(p=>{
+   const d=lookup.get(p.Operação+'|'+p.Polo)||{Inscritos:0,Matrículas:0,Pagamentos:0};
+   return {Data:date,Operação:p.Operação,Polo:p.Polo,Inscritos:num(d.Inscritos),Matrículas:num(d.Matrículas),Pagamentos:num(d.Pagamentos)};
+  }).sort((a,b)=>a.Polo.localeCompare(b.Polo,'pt-BR'));
+ }
+ function yoyDailyRows(){
+  const date=$('yoyDate')?.value||'',op=$('yoyOp')?.value||'Todas',actual=new Map();
+  (DATA.daily||[]).filter(r=>fmtDate(r.Data)===date).forEach(r=>{
+   const k=r.Operação;if(!actual.has(k))actual.set(k,{Inscritos:0,Matrículas:0});
+   const a=actual.get(k);if(r.Indicador==='Inscritos')a.Inscritos+=num(r.Quantidade);if(r.Indicador==='Matrículas')a.Matrículas+=num(r.Quantidade);
+  });
+  return YOY_DATA.filter(r=>r.DataAtual===date&&(op==='Todas'||r.Operação===op)).map(r=>{
+   const a=actual.get(r.Operação)||{Inscritos:0,Matrículas:0};
+   const di=a.Inscritos-num(r.InscritosYOY),dm=a.Matrículas-num(r.MatriculasYOY);
+   return {Operação:r.Operação,'Data atual':r.DataAtual,'Data YOY':r.DataYOY,'Inscritos atual':a.Inscritos,'Inscritos YOY':num(r.InscritosYOY),'Variação inscritos':di,'YOY inscritos (%)':num(r.InscritosYOY)?di/num(r.InscritosYOY):null,'Matrículas atual':a.Matrículas,'Matrículas YOY':num(r.MatriculasYOY),'Variação matrículas':dm,'YOY matrículas (%)':num(r.MatriculasYOY)?dm/num(r.MatriculasYOY):null};
+  });
+ }
+ function yoyAccumulatedRows(){
+  const date=$('yoyDate')?.value||'',op=$('yoyOp')?.value||'Todas';
+  const ops=op==='Todas'?[...new Set(YOY_DATA.map(r=>r.Operação))].sort():[op];
+  return ops.map(operation=>{
+   const opDates=YOY_DATA.filter(r=>r.Operação===operation&&r.DataAtual<=date).map(r=>r.DataAtual).sort();
+   const firstDate=opDates[0]||'';
+   const actual={Inscritos:0,Matrículas:0},yoy={Inscritos:0,Matrículas:0};
+   (DATA.daily||[]).filter(r=>r.Operação===operation&&r.Data>=firstDate&&r.Data<=date).forEach(r=>{
+    if(r.Indicador==='Inscritos')actual.Inscritos+=num(r.Quantidade);
+    if(r.Indicador==='Matrículas')actual.Matrículas+=num(r.Quantidade);
+   });
+   YOY_DATA.filter(r=>r.Operação===operation&&r.DataAtual>=firstDate&&r.DataAtual<=date).forEach(r=>{yoy.Inscritos+=num(r.InscritosYOY);yoy.Matrículas+=num(r.MatriculasYOY);});
+   const dI=actual.Inscritos-yoy.Inscritos,dM=actual.Matrículas-yoy.Matrículas;
+   const last=YOY_DATA.filter(r=>r.Operação===operation&&r.DataAtual>=firstDate&&r.DataAtual<=date).sort((a,b)=>a.DataAtual.localeCompare(b.DataAtual)).at(-1);
+   return {Operação:operation,'Período atual':firstDate+' a '+date,'Até data YOY':last?.DataYOY||'', 'Inscritos atual':actual.Inscritos,'Inscritos YOY':yoy.Inscritos,'Variação inscritos':dI,'YOY inscritos (%)':yoy.Inscritos?dI/yoy.Inscritos:null,'Matrículas atual':actual.Matrículas,'Matrículas YOY':yoy.Matrículas,'Variação matrículas':dM,'YOY matrículas (%)':yoy.Matrículas?dM/yoy.Matrículas:null};
+  });
+ }
+ function summaryRows(){
+  const filters=currentFilters(),rows=currentGlobalRows(),sum=k=>rows.reduce((a,r)=>a+num(r[k]),0);
+  const yoyOps=filters.Operação==='Todas'?[...new Set(YOY_DATA.map(r=>r.Operação))]:[filters.Operação];
+  let yI=0,yM=0;const cutoff='2026-11-26';
+  YOY_DATA.filter(r=>yoyOps.includes(r.Operação)&&r.DataAtual<=cutoff).forEach(r=>{yI+=num(r.InscritosYOY);yM+=num(r.MatriculasYOY);});
+  return [
+   {Indicador:'Data da exportação',Valor:new Date().toLocaleString('pt-BR')},
+   {Indicador:'Operação selecionada',Valor:filters.Operação},
+   {Indicador:'Polo selecionado',Valor:filters.Polo},
+   {Indicador:'Estado selecionado',Valor:filters.Estado},
+   {Indicador:'Polos no recorte',Valor:rows.length},
+   {Indicador:'Inscritos',Valor:sum('Inscritos')},
+   {Indicador:'Matrículas',Valor:sum('Matrículas')},
+   {Indicador:'Pagamentos',Valor:sum('Pagamentos')},
+   {Indicador:'Conversão Inscritos → Matrículas',Valor:sum('Inscritos')?sum('Matrículas')/sum('Inscritos'):0},
+   {Indicador:'Conversão Matrículas → Pagamentos',Valor:sum('Matrículas')?sum('Pagamentos')/sum('Matrículas'):0},
+   {Indicador:'Inscritos YOY acumulado até 26/11/2026',Valor:yI},
+   {Indicador:'Matrículas YOY acumulado até 26/11/2026',Valor:yM}
+  ];
+ }
+ function zerosRows(){
+  const date=$('dailyDate')?.value||'',rows=dailyTrackingRows(),out=[];
+  ['Inscritos','Matrículas','Pagamentos'].forEach(metric=>rows.filter(r=>num(r[metric])===0).forEach(r=>out.push({Data:date,Operação:r.Operação,Polo:r.Polo,Indicador:metric})));
+  return out;
+ }
+ function fullSheets(){
+  const indicator=indicatorsRows(),daily=dailyPivot(),yoyFull=YOY_DATA.map(r=>({DataAtual:r.DataAtual,DataYOY:r.DataYOY,Operação:r.Operação,InscritosYOY:num(r.InscritosYOY),MatrículasYOY:num(r.MatriculasYOY)}));
+  return [
+   {name:'Resumo',rows:summaryRows()},
+   {name:'Indicadores por polo',rows:indicator},
+   {name:'Rankings',rows:rankingRows()},
+   {name:'Evolução diária',rows:evolutionRows()},
+   {name:'Série diária por polo',rows:daily},
+   {name:'Distribuição por estado',rows:stateRows()},
+   {name:'Acompanhamento diário',rows:dailyTrackingRows()},
+   {name:'Polos zerados no dia',rows:zerosRows()},
+   {name:'YOY diário selecionado',rows:yoyDailyRows()},
+   {name:'YOY acumulado',rows:yoyAccumulatedRows()},
+   {name:'Série YOY completa',rows:yoyFull}
+  ];
+ }
+ function bind(id,fn){const b=$(id);if(b)b.addEventListener('click',()=>{try{fn();}catch(e){console.error(e);alert('Não foi possível gerar o Excel. Confira a conexão e tente novamente.');}});}
+ bind('exportAllExcel',()=>makeWorkbook(fullSheets(),'Dashboard_Comercial_Operacoes_Proprias_'+fileDate()+'.xlsx'));
+ bind('exportIndicatorsExcel',()=>makeWorkbook([{name:'Indicadores por polo',rows:indicatorsRows()}],'Indicadores_por_polo_'+fileDate()+'.xlsx'));
+ bind('exportDailyExcel',()=>makeWorkbook([{name:'Acompanhamento diário',rows:dailyTrackingRows()},{name:'Polos zerados no dia',rows:zerosRows()}],'Acompanhamento_diario_'+fileDate()+'.xlsx'));
+ bind('exportYoyExcel',()=>makeWorkbook([{name:'YOY diário',rows:yoyDailyRows()},{name:'YOY acumulado',rows:yoyAccumulatedRows()},{name:'Série YOY completa',rows:YOY_DATA.map(r=>({DataAtual:r.DataAtual,DataYOY:r.DataYOY,Operação:r.Operação,InscritosYOY:num(r.InscritosYOY),MatrículasYOY:num(r.MatriculasYOY)}))}],'Comparativo_YOY_'+fileDate()+'.xlsx'));
+})();
+</script>
+
 </body></html>
