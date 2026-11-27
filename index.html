@@ -200,6 +200,71 @@ body.dark-theme #yoyTable tr.yoy-acumulado td:not(.negativo){color:#edf0f4!impor
 body.dark-theme .swot-alt-card{background:#222831!important;color:#edf0f4!important;border-color:#39414d!important}
 body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
 </style>
+
+<style id="black-dashboard-style">
+.black-entry-strip{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 16px;padding:14px 18px;background:#20242b;border-radius:12px;color:#fff;box-shadow:0 5px 16px rgba(25,30,38,.09)}
+.black-entry-copy{min-width:0}.black-entry-title{font-size:13px;font-weight:850;letter-spacing:.35px}.black-entry-sub{font-size:11px;color:#c7cbd2;margin-top:3px}
+.black-open-btn{border:0;border-radius:9px;background:#f2c400;color:#20242b;font-weight:850;font-size:12px;padding:12px 17px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.13)}
+.black-open-btn:hover{background:#ffda24;transform:translateY(-1px)}
+.black-dashboard{margin:0 0 20px;padding:20px;background:#fff;border:1px solid #e6e8ed;border-top:4px solid #f2c400;border-radius:14px;box-shadow:0 8px 24px rgba(35,40,48,.07);scroll-margin-top:14px}
+.black-dashboard[hidden]{display:none!important}
+.black-dashboard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:18px}
+.black-kicker{font-size:10px;font-weight:850;letter-spacing:1px;color:#927600;text-transform:uppercase}
+.black-dashboard-head h2{font-size:21px;margin:3px 0 4px;color:#20242b;letter-spacing:-.3px}
+.black-dashboard-head p{font-size:12px;color:#69717d;margin:0}
+.black-close-btn{border:1px solid #d9dde3;background:#fff;border-radius:8px;padding:8px 11px;color:#4c5561;font-size:11px;font-weight:700;cursor:pointer}
+.black-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.black-kpi{border:1px solid #e8eaee;border-radius:10px;padding:14px 15px;background:#fafbfc;min-width:0}
+.black-kpi-label{font-size:10px;letter-spacing:.45px;text-transform:uppercase;font-weight:800;color:#727b87}
+.black-kpi-value{font-size:25px;line-height:1.2;font-weight:850;letter-spacing:-.6px;color:#20242b;margin:5px 0 3px;font-variant-numeric:tabular-nums}
+.black-kpi-sub{font-size:10px;color:#747d88}
+.black-op-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 20px}
+.black-op-card{border:1px solid #e5e8ed;border-radius:11px;padding:14px 16px;background:#fff}
+.black-op-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.black-op-card-head strong{font-size:12px;color:#303640}
+.black-op-big{font-size:21px;font-weight:850;color:#20242b;font-variant-numeric:tabular-nums}
+.black-op-details{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:#68717d;margin:6px 0 9px}
+.black-op-details b{color:#2b3038}
+.black-progress-track{height:8px;background:#eceff2;border-radius:99px;overflow:hidden}
+.black-progress-fill{height:100%;background:#e0b800;border-radius:99px;transition:width .25s}
+.black-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:20px 0 10px;flex-wrap:wrap}
+.black-section-head h3{font-size:14px;margin:0;color:#252a32}
+.black-section-head p{font-size:10px;margin:3px 0 0;color:#77808c}
+.black-top5-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.black-top-card{border:1px solid #e5e8ed;border-radius:11px;padding:14px;background:#fff;min-width:0}
+.black-top-card h4{font-size:12px;margin:0 0 4px;color:#303640}
+.black-top-card .black-top-sub{font-size:10px;color:#78818c;margin-bottom:10px}
+.black-rank-row{display:grid;grid-template-columns:25px minmax(0,1fr) auto;align-items:center;gap:9px;padding:9px 0;border-top:1px solid #eff0f2}
+.black-rank-num{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:#f6f3e3;color:#665500;font-size:11px;font-weight:900}
+.black-rank-name{min-width:0;font-size:11px;font-weight:750;color:#303640;overflow-wrap:anywhere}
+.black-rank-meta{font-size:10px;color:#76808c;margin-top:2px}
+.black-rank-score{text-align:right;font-size:13px;font-weight:850;color:#252a32;white-space:nowrap;font-variant-numeric:tabular-nums}
+.black-rank-score small{display:block;font-size:9px;font-weight:650;color:#7b838e}
+.black-status{display:inline-flex;align-items:center;border-radius:99px;padding:3px 7px;font-size:9px;font-weight:850;letter-spacing:.1px;white-space:nowrap}
+.black-status.ok{background:#e7f5eb;color:#21623a}.black-status.wait{background:#fff3d3;color:#755500}.black-status.zero{background:#f0f1f3;color:#68717c}
+.black-table-controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.black-table-controls select,.black-table-controls input{border:1px solid #dce0e5;border-radius:8px;background:#fff;padding:9px 11px;color:#343a43;font-size:11px;min-width:170px}
+.black-table-wrap{overflow:auto;max-height:590px;border:1px solid #e7e9ed;border-radius:9px}
+.black-table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:11px}
+.black-table th{position:sticky;top:0;background:#f6f7f9;color:#66707c;text-align:right;padding:10px 11px;font-weight:850;z-index:1}
+.black-table td{padding:9px 11px;border-top:1px solid #eff0f2;text-align:right;color:#333a44;font-variant-numeric:tabular-nums}
+.black-table td:first-child,.black-table th:first-child,.black-table td:nth-child(2),.black-table th:nth-child(2),.black-table td:nth-child(3),.black-table th:nth-child(3){text-align:left}
+.black-table tbody tr:hover{background:#fffbed}
+.black-inline-progress{display:inline-block;vertical-align:middle;width:64px;height:6px;background:#eceff2;border-radius:99px;overflow:hidden;margin-right:6px}
+.black-inline-progress i{display:block;height:100%;background:#e0b800;border-radius:99px}
+.black-table-foot{font-size:10px;line-height:1.5;color:#7a828c;margin-top:10px}
+body.dark-theme .black-dashboard{background:#191e25;border-color:#39414d}
+body.dark-theme .black-dashboard-head h2,body.dark-theme .black-section-head h3,body.dark-theme .black-top-card h4,body.dark-theme .black-op-card-head strong,body.dark-theme .black-rank-name,body.dark-theme .black-rank-score,body.dark-theme .black-kpi-value{color:#edf0f4}
+body.dark-theme .black-kpi,body.dark-theme .black-op-card,body.dark-theme .black-top-card{background:#222831;border-color:#39414d}
+body.dark-theme .black-table-wrap{border-color:#39414d}
+body.dark-theme .black-table th{background:#252c36;color:#c2c9d3}
+body.dark-theme .black-table td{border-color:#353d48;color:#e0e5eb}
+body.dark-theme .black-table tbody tr:hover{background:#292a23}
+body.dark-theme .black-table-controls select,body.dark-theme .black-table-controls input,body.dark-theme .black-close-btn{background:#222831;border-color:#49515d;color:#edf0f4}
+body.dark-theme .black-entry-strip{background:#171b21;border:1px solid #3b414a}
+@media(max-width:850px){.black-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.black-top5-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.black-entry-strip{align-items:flex-start;flex-direction:column}.black-open-btn{width:100%}.black-dashboard{padding:14px}.black-dashboard-head h2{font-size:18px}.black-kpi-value{font-size:22px}.black-op-summary{grid-template-columns:1fr}.black-kpis{gap:8px}.black-kpi{padding:11px}.black-kpi-label{font-size:9px}}
+</style>
 </head>
 <body>
 <header class="executive-header">
@@ -223,6 +288,36 @@ body.dark-theme .swot-alt-meta{color:#b7c0cc!important}
   <button type="button" class="export-btn" id="exportYoyExcel">Comparativo YOY</button>
  </div>
  <div class="excel-export-footnote">As exportações específicas respeitam os filtros e a data selecionada em cada quadro.</div>
+</section>
+<section class="black-entry-strip" aria-label="Acompanhamento da campanha Black November">
+ <div class="black-entry-copy"><div class="black-entry-title">CORRIDA DE MATRÍCULAS · BLACK NOVEMBER</div><div class="black-entry-sub">25 a 30/11/2026 · Competição entre os polos próprios</div></div>
+ <button type="button" class="black-open-btn" id="openBlackDashboard" aria-controls="blackDashboard" aria-expanded="false">🏁 Acompanhamento Black Polos</button>
+</section>
+<section class="black-dashboard" id="blackDashboard" hidden aria-label="Mini dashboard da Black November">
+ <div class="black-dashboard-head">
+  <div><div class="black-kicker">Corrida de matrículas · 25 a 30/11</div><h2>Acompanhamento Black Polos</h2><p>Realizado vinculado ao acompanhamento diário do dashboard principal. Apenas matrículas com data entre 25 e 30/11 entram nesta apuração.</p></div>
+  <button type="button" class="black-close-btn" id="closeBlackDashboard">Fechar painel ✕</button>
+ </div>
+ <div class="black-kpis">
+  <div class="black-kpi"><div class="black-kpi-label">Meta Black total</div><div class="black-kpi-value" id="blackMetaTotal">—</div><div class="black-kpi-sub">104 polos · Operações Próprias I e II</div></div>
+  <div class="black-kpi"><div class="black-kpi-label">Matrículas realizadas</div><div class="black-kpi-value" id="blackRealTotal">—</div><div class="black-kpi-sub" id="blackUpdatedThrough">Período 25 a 30/11</div></div>
+  <div class="black-kpi"><div class="black-kpi-label">Atingimento geral</div><div class="black-kpi-value" id="blackPercentTotal">—</div><div class="black-kpi-sub" id="blackRemainingTotal">—</div></div>
+  <div class="black-kpi"><div class="black-kpi-label">Polos classificados</div><div class="black-kpi-value" id="blackQualifiedTotal">—</div><div class="black-kpi-sub" id="blackZeroTotal">—</div></div>
+ </div>
+ <div class="black-op-summary" id="blackOperationSummary"></div>
+ <div class="black-section-head"><div><h3>TOP 5 de cada operação</h3><p>Ranking pelo maior percentual de atingimento da meta Black</p></div><span class="black-status wait">Classificação para premiação exige 100% da meta</span></div>
+ <div class="black-top5-grid">
+  <div class="black-top-card"><h4>Operação Própria I</h4><div class="black-top-sub">5 maiores atingimentos da operação</div><div id="blackTopOp1"></div></div>
+  <div class="black-top-card"><h4>Operação Própria II</h4><div class="black-top-sub">5 maiores atingimentos da operação</div><div id="blackTopOp2"></div></div>
+ </div>
+ <div class="black-section-head"><div><h3>Visão geral · Todos os polos</h3><p>Meta, realizado, atingimento, crescimento sobre a meta e situação de cada polo</p></div></div>
+ <div class="black-table-controls">
+  <select id="blackOpFilter" aria-label="Filtrar operação"><option value="Todas">Todas as operações</option><option value="Operação Própria I">Operação Própria I</option><option value="Operação Própria II">Operação Própria II</option></select>
+  <input id="blackSearch" type="search" placeholder="Buscar polo..." aria-label="Buscar polo"/>
+  <span id="blackRowsCount" class="black-table-foot"></span>
+ </div>
+ <div class="black-table-wrap"><table class="black-table"><thead><tr><th>Rank</th><th>Polo</th><th>Operação</th><th>Meta Black</th><th>Realizado</th><th>Atingimento</th><th>Crescimento vs. meta</th><th>Situação</th></tr></thead><tbody id="blackTableBody"></tbody></table></div>
+ <div class="black-table-foot">Critério de classificação: o polo precisa atingir pelo menos 100% da meta estipulada para ficar elegível à premiação. O ranking é atualizado conforme o realizado diário de matrículas do dashboard principal. O crescimento vs. meta corresponde ao percentual acima ou abaixo da meta (atingimento menos 100%).</div>
 </section>
 <div class="filters">
 <label>Operação<select id="op"><option value="Todas">Todas as operações</option><option>Operação Própria I</option><option>Operação Própria II</option></select></label>
@@ -974,4 +1069,87 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
+
+<script id="black-dashboard-script">
+(function(){
+ const BLACK_TARGETS=[{"Operação":"Operação Própria I","Polo":"Alta Floresta/MT","Meta":29},{"Operação":"Operação Própria I","Polo":"Apucarana/PR","Meta":20},{"Operação":"Operação Própria I","Polo":"Balneário Camboriú/SC - Avenida Brasil (Sibara)","Meta":36},{"Operação":"Operação Própria I","Polo":"Brasília/DF - Taguatinga","Meta":20},{"Operação":"Operação Própria I","Polo":"Caçador/SC","Meta":20},{"Operação":"Operação Própria I","Polo":"Cáceres/MT","Meta":20},{"Operação":"Operação Própria I","Polo":"Caldas Novas/GO","Meta":20},{"Operação":"Operação Própria I","Polo":"Camboriú/SC","Meta":29},{"Operação":"Operação Própria I","Polo":"Campo Grande/MS - Terminal Morenão","Meta":28},{"Operação":"Operação Própria I","Polo":"Campo Verde/MT","Meta":27},{"Operação":"Operação Própria I","Polo":"Campos Novos/SC","Meta":27},{"Operação":"Operação Própria I","Polo":"Chapecó/SC - Bela Vista","Meta":20},{"Operação":"Operação Própria I","Polo":"Chapecó/SC - Centro","Meta":27},{"Operação":"Operação Própria I","Polo":"Colíder/MT","Meta":20},{"Operação":"Operação Própria I","Polo":"Corumbá/MS","Meta":29},{"Operação":"Operação Própria I","Polo":"Cristalina/GO","Meta":20},{"Operação":"Operação Própria I","Polo":"Curitiba/PR - Boqueirão","Meta":25},{"Operação":"Operação Própria I","Polo":"Curitiba/PR - Centro","Meta":29},{"Operação":"Operação Própria I","Polo":"Curitiba/PR - Portão","Meta":25},{"Operação":"Operação Própria I","Polo":"Curitibanos/SC","Meta":20},{"Operação":"Operação Própria I","Polo":"Dourados/MS","Meta":28},{"Operação":"Operação Própria I","Polo":"Formosa/GO","Meta":20},{"Operação":"Operação Própria I","Polo":"Fraiburgo/SC","Meta":20},{"Operação":"Operação Própria I","Polo":"Gaspar/SC","Meta":36},{"Operação":"Operação Própria I","Polo":"Goianésia/GO","Meta":23},{"Operação":"Operação Própria I","Polo":"Goiânia/GO - Centro","Meta":29},{"Operação":"Operação Própria I","Polo":"Itajaí/SC - São Vicente","Meta":48},{"Operação":"Operação Própria I","Polo":"Jaraguá do Sul/SC","Meta":29},{"Operação":"Operação Própria I","Polo":"Lages/SC - Centro","Meta":28},{"Operação":"Operação Própria I","Polo":"Lages/SC - Garden Shopping","Meta":28},{"Operação":"Operação Própria I","Polo":"Lucas do Rio Verde/MT","Meta":24},{"Operação":"Operação Própria I","Polo":"Luziânia/GO","Meta":21},{"Operação":"Operação Própria I","Polo":"Maringá/PR - Terminal Urbano","Meta":22},{"Operação":"Operação Própria I","Polo":"Mirassol D'Oeste/MT","Meta":20},{"Operação":"Operação Própria I","Polo":"Navegantes/SC","Meta":29},{"Operação":"Operação Própria I","Polo":"Naviraí/MS","Meta":22},{"Operação":"Operação Própria I","Polo":"Novo Gama/GO- Pedregal","Meta":20},{"Operação":"Operação Própria I","Polo":"Palmas/TO - Plano Diretor Sul","Meta":29},{"Operação":"Operação Própria I","Polo":"Planaltina/GO","Meta":20},{"Operação":"Operação Própria I","Polo":"Pomerode/SC","Meta":20},{"Operação":"Operação Própria I","Polo":"Ponta Grossa/PR - Centro","Meta":20},{"Operação":"Operação Própria I","Polo":"Pontes e Lacerda/MT","Meta":21},{"Operação":"Operação Própria I","Polo":"Porangatu/GO","Meta":20},{"Operação":"Operação Própria I","Polo":"Primavera do Leste/MT","Meta":22},{"Operação":"Operação Própria I","Polo":"Sarandi/PR","Meta":20},{"Operação":"Operação Própria I","Polo":"Sinop/MT","Meta":36},{"Operação":"Operação Própria I","Polo":"Tangará da Serra/MT","Meta":21},{"Operação":"Operação Própria I","Polo":"Timbó/SC","Meta":36},{"Operação":"Operação Própria I","Polo":"Três Lagoas/MS","Meta":20},{"Operação":"Operação Própria I","Polo":"Valparaíso de Goiás/GO - BR 040","Meta":20},{"Operação":"Operação Própria I","Polo":"Várzea Grande/MT","Meta":29},{"Operação":"Operação Própria I","Polo":"Videira/SC","Meta":29},{"Operação":"Operação Própria I","Polo":"Xanxerê/SC","Meta":21},{"Operação":"Operação Própria I","Polo":"Xaxim/SC","Meta":21},{"Operação":"Operação Própria II","Polo":"Apodi/RN","Meta":21},{"Operação":"Operação Própria II","Polo":"Aracati/CE","Meta":33},{"Operação":"Operação Própria II","Polo":"Araçatuba/SP","Meta":25},{"Operação":"Operação Própria II","Polo":"Araraquara/SP - Centro","Meta":20},{"Operação":"Operação Própria II","Polo":"Assú/RN","Meta":22},{"Operação":"Operação Própria II","Polo":"Barretos/SP","Meta":20},{"Operação":"Operação Própria II","Polo":"Baturité/CE","Meta":28},{"Operação":"Operação Própria II","Polo":"Belo Horizonte/MG - Shopping Estação BH","Meta":40},{"Operação":"Operação Própria II","Polo":"Boa Viagem/CE","Meta":31},{"Operação":"Operação Própria II","Polo":"Bonito/PE","Meta":20},{"Operação":"Operação Própria II","Polo":"Brejo Santo/CE","Meta":20},{"Operação":"Operação Própria II","Polo":"Canindé/CE","Meta":21},{"Operação":"Operação Própria II","Polo":"Cariacica/ES - Shopping Moxuara","Meta":20},{"Operação":"Operação Própria II","Polo":"Domingos Martins/ES","Meta":20},{"Operação":"Operação Própria II","Polo":"Guarujá/SP","Meta":30},{"Operação":"Operação Própria II","Polo":"Ibirité/MG","Meta":21},{"Operação":"Operação Própria II","Polo":"Ipu/CE","Meta":18},{"Operação":"Operação Própria II","Polo":"Itapajé/CE","Meta":45},{"Operação":"Operação Própria II","Polo":"Jaguaribe/CE","Meta":20},{"Operação":"Operação Própria II","Polo":"Jaú/SP","Meta":25},{"Operação":"Operação Própria II","Polo":"João Monlevade/MG","Meta":28},{"Operação":"Operação Própria II","Polo":"Limoeiro do Norte/CE","Meta":35},{"Operação":"Operação Própria II","Polo":"Marília/SP","Meta":20},{"Operação":"Operação Própria II","Polo":"Mombaça/CE","Meta":30},{"Operação":"Operação Própria II","Polo":"Morada Nova/CE","Meta":30},{"Operação":"Operação Própria II","Polo":"Mossoró/RN","Meta":22},{"Operação":"Operação Própria II","Polo":"Ourinhos/SP","Meta":20},{"Operação":"Operação Própria II","Polo":"Pedro Leopoldo/MG","Meta":33},{"Operação":"Operação Própria II","Polo":"Petrópolis/RJ","Meta":22},{"Operação":"Operação Própria II","Polo":"Pindamonhangaba/SP","Meta":20},{"Operação":"Operação Própria II","Polo":"Presidente Dutra/MA","Meta":20},{"Operação":"Operação Própria II","Polo":"Quixeramobim/CE","Meta":34},{"Operação":"Operação Própria II","Polo":"Rio Claro/SP","Meta":18},{"Operação":"Operação Própria II","Polo":"Rio de Janeiro/RJ - Barra da Tijuca","Meta":21},{"Operação":"Operação Própria II","Polo":"Rio de Janeiro/RJ - Botafogo","Meta":25},{"Operação":"Operação Própria II","Polo":"Rio de Janeiro/RJ - Ilha do Governador","Meta":20},{"Operação":"Operação Própria II","Polo":"Rio de Janeiro/RJ - Tijuca","Meta":20},{"Operação":"Operação Própria II","Polo":"Santa Luzia/MG - São Benedito","Meta":27},{"Operação":"Operação Própria II","Polo":"São Gonçalo do Amarante/CE","Meta":30},{"Operação":"Operação Própria II","Polo":"São Gonçalo/RJ - Partage Shopping","Meta":35},{"Operação":"Operação Própria II","Polo":"São José dos Campos/SP","Meta":21},{"Operação":"Operação Própria II","Polo":"São Paulo/SP - Santo Amaro","Meta":25},{"Operação":"Operação Própria II","Polo":"São Paulo/SP - Tatuapé","Meta":25},{"Operação":"Operação Própria II","Polo":"Sertãozinho/SP","Meta":20},{"Operação":"Operação Própria II","Polo":"Taubaté/SP","Meta":20},{"Operação":"Operação Própria II","Polo":"Tianguá/CE","Meta":30},{"Operação":"Operação Própria II","Polo":"Uberaba/MG","Meta":20},{"Operação":"Operação Própria II","Polo":"Vespasiano/MG","Meta":20},{"Operação":"Operação Própria II","Polo":"Vila Velha/ES","Meta":31},{"Operação":"Operação Própria II","Polo":"Vitória/ES - Centro Trade Center","Meta":21}];
+ const BLACK_START="2026-11-25", BLACK_END="2026-11-30";
+ const fmtInt=n=>new Intl.NumberFormat("pt-BR",{maximumFractionDigits:0}).format(n||0);
+ const fmtPct=n=>new Intl.NumberFormat("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1}).format(n||0)+"%";
+ const esc=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+ const percent=(real,meta)=>meta?real/meta*100:0;
+ function rowsFromMain(){
+   const realized=new Map();
+   (DATA.daily||[]).forEach(r=>{
+     if(r.Indicador!=="Matrículas"||r.Data<BLACK_START||r.Data>BLACK_END)return;
+     const key=r["Operação"]+"\u0001"+r.Polo;
+     realized.set(key,(realized.get(key)||0)+Number(r.Quantidade||0));
+   });
+   const rows=BLACK_TARGETS.map(t=>{
+     const real=realized.get(t.Operação+"\u0001"+t.Polo)||0;
+     const ating=percent(real,t.Meta);
+     return {...t,Realizado:real,Atingimento:ating,Crescimento:ating-100,Diferenca:real-t.Meta,Status:real>=t.Meta?"Classificado":real>0?"Em disputa":"Zerado"};
+   });
+   const rankByOp={};
+   ["Operação Própria I","Operação Própria II"].forEach(op=>{
+     const sorted=rows.filter(x=>x.Operação===op).sort((a,b)=>b.Atingimento-a.Atingimento||a.Polo.localeCompare(b.Polo,"pt-BR"));
+     sorted.forEach((x,i)=>rankByOp[x.Operação+"\u0001"+x.Polo]=i+1);
+   });
+   rows.forEach(x=>x.Rank=rankByOp[x.Operação+"\u0001"+x.Polo]||0);
+   return rows;
+ }
+ function progress(real,meta){return Math.max(0,Math.min(100,percent(real,meta)));}
+ function statusClass(s){return s==="Classificado"?"ok":s==="Zerado"?"zero":"wait";}
+ function statusPill(x){return '<span class="black-status '+statusClass(x.Status)+'">'+(x.Status==="Classificado"?"CLASSIFICADO":x.Status==="Zerado"?"ZERADO":"EM DISPUTA")+'</span>';}
+ function render(){
+   const rows=rowsFromMain();
+   const totalMeta=rows.reduce((a,x)=>a+x.Meta,0);
+   const totalReal=rows.reduce((a,x)=>a+x.Realizado,0);
+   const totalPct=percent(totalReal,totalMeta);
+   const qualified=rows.filter(x=>x.Realizado>=x.Meta).length;
+   const zeros=rows.filter(x=>x.Realizado===0).length;
+   document.getElementById("blackMetaTotal").textContent=fmtInt(totalMeta);
+   document.getElementById("blackRealTotal").textContent=fmtInt(totalReal);
+   document.getElementById("blackPercentTotal").textContent=fmtPct(totalPct);
+   document.getElementById("blackRemainingTotal").textContent=totalReal>=totalMeta?"Meta geral superada":fmtInt(totalMeta-totalReal)+" matrículas para a meta";
+   document.getElementById("blackQualifiedTotal").textContent=fmtInt(qualified);
+   document.getElementById("blackZeroTotal").textContent=fmtInt(zeros)+" polos sem matrícula no período";
+   const latest=(DATA.daily||[]).filter(x=>x.Indicador==="Matrículas"&&x.Data>=BLACK_START&&x.Data<=BLACK_END).reduce((m,x)=>x.Data>m?x.Data:m,"");
+   const latestLabel=latest?latest.slice(8,10)+"/"+latest.slice(5,7)+"/"+latest.slice(0,4):"sem registros no período";
+   document.getElementById("blackUpdatedThrough").textContent="Realizado carregado até "+latestLabel;
+   document.getElementById("blackOperationSummary").innerHTML=["Operação Própria I","Operação Própria II"].map(op=>{
+     const part=rows.filter(x=>x.Operação===op);
+     const meta=part.reduce((a,x)=>a+x.Meta,0),real=part.reduce((a,x)=>a+x.Realizado,0),pct=percent(real,meta);
+     const classed=part.filter(x=>x.Realizado>=x.Meta).length;
+     return '<div class="black-op-card"><div class="black-op-card-head"><strong>'+esc(op)+'</strong><span class="black-op-big">'+fmtPct(pct)+'</span></div><div class="black-op-details"><span>Meta: <b>'+fmtInt(meta)+'</b></span><span>Realizado: <b>'+fmtInt(real)+'</b></span><span>Classificados: <b>'+classed+'/'+part.length+'</b></span></div><div class="black-progress-track"><div class="black-progress-fill" style="width:'+progress(real,meta)+'%"></div></div></div>';
+   }).join("");
+   ["Operação Própria I","Operação Própria II"].forEach((op,i)=>{
+     const top=rows.filter(x=>x.Operação===op).sort((a,b)=>b.Atingimento-a.Atingimento||a.Polo.localeCompare(b.Polo,"pt-BR")).slice(0,5);
+     const id=i===0?"blackTopOp1":"blackTopOp2";
+     document.getElementById(id).innerHTML=top.map((x,j)=>
+       '<div class="black-rank-row"><span class="black-rank-num">'+(j+1)+'</span><div><div class="black-rank-name">'+esc(x.Polo)+'</div><div class="black-rank-meta">Realizado '+fmtInt(x.Realizado)+' de '+fmtInt(x.Meta)+' · '+(x.Crescimento>=0?"+":"")+fmtPct(x.Crescimento)+' vs. meta</div>'+statusPill(x)+'</div><div class="black-rank-score">'+fmtPct(x.Atingimento)+'<small>atingimento</small></div></div>'
+     ).join("");
+   });
+   renderTable(rows);
+ }
+ function renderTable(rows){
+   const op=document.getElementById("blackOpFilter").value;
+   const term=document.getElementById("blackSearch").value.trim().toLocaleLowerCase("pt-BR");
+   const filtered=rows.filter(x=>(op==="Todas"||x.Operação===op)&&(!term||x.Polo.toLocaleLowerCase("pt-BR").includes(term)));
+   filtered.sort((a,b)=>b.Atingimento-a.Atingimento||a.Polo.localeCompare(b.Polo,"pt-BR"));
+   document.getElementById("blackRowsCount").textContent=filtered.length+" de "+rows.length+" polos";
+   document.getElementById("blackTableBody").innerHTML=filtered.map(x=>
+     '<tr><td>#'+x.Rank+'</td><td>'+esc(x.Polo)+'</td><td>'+esc(x.Operação)+'</td><td>'+fmtInt(x.Meta)+'</td><td><b>'+fmtInt(x.Realizado)+'</b></td><td><span class="black-inline-progress"><i style="width:'+progress(x.Realizado,x.Meta)+'%"></i></span>'+fmtPct(x.Atingimento)+'</td><td>'+(x.Crescimento>=0?"+":"")+fmtPct(x.Crescimento)+'</td><td>'+statusPill(x)+'</td></tr>'
+   ).join("");
+ }
+ const open=document.getElementById("openBlackDashboard");
+ const panel=document.getElementById("blackDashboard");
+ const close=document.getElementById("closeBlackDashboard");
+ open.addEventListener("click",()=>{panel.hidden=false;open.setAttribute("aria-expanded","true");render();panel.scrollIntoView({behavior:"smooth",block:"start"});});
+ close.addEventListener("click",()=>{panel.hidden=true;open.setAttribute("aria-expanded","false");open.focus();});
+ document.getElementById("blackOpFilter").addEventListener("change",render);
+ document.getElementById("blackSearch").addEventListener("input",render);
+ render();
+})();
+</script>
 </body></html>
